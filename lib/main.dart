@@ -1,21 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:shopsmart_user/const/app_theme.dart';
-import 'package:shopsmart_user/screens/home_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:shopsmart_user/providers/theme_provider.dart';
+
+
+import 'consts/theme_data.dart';
+import 'screens/home_screen.dart';
 
 void main() {
-  runApp(const ShopSmart());
+  runApp(const shopSmart_User());
 }
 
-class ShopSmart extends StatelessWidget {
-  const ShopSmart({super.key});
+class shopSmart_User extends StatelessWidget {
+  const shopSmart_User({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Shop Smart',
-      theme: Styles.themeData(isDarkTheme: false, context: context),
-      home: const HomeScreen(),
+    // final themeProvider = Provider.of<ThemeProvider>(context);
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ThemeProvider(),
+        ),
+      ],
+      child: Consumer<ThemeProvider>(builder: (
+        context,
+        themeProvider,
+        child,
+      ) {
+        return MaterialApp(
+          title: 'Shop Smart AR',
+          theme: Styles.themeData(
+              isDarkTheme: themeProvider.getIsDarkTheme, context: context),
+          home: const HomeScreen(),
+        );
+      }),
     );
   }
 }
