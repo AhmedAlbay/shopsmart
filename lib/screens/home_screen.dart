@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shopsmart_user/providers/theme_provider.dart';
+
 import 'package:shopsmart_user/widget/subtitle.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,7 +7,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+   
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -25,14 +24,7 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {},
             child: const Text("Hello world"),
           ),
-          SwitchListTile(
-            title:
-                Text(themeProvider.getIsDarkTheme ? "Dark mode" : "Light mode"),
-            value: themeProvider.getIsDarkTheme,
-            onChanged: (value) {
-              themeProvider.setDarkTheme(themeValue: value);
-            },
-          ),
+          
         ],
       ),
     );

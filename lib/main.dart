@@ -3,15 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:shopsmart_user/providers/theme_provider.dart';
 import 'package:shopsmart_user/root_screen.dart';
 
-
 import 'consts/theme_data.dart';
 
 void main() {
-  runApp(const shopSmart_User());
+  runApp(const ShopSmart());
 }
 
-class shopSmart_User extends StatelessWidget {
-  const shopSmart_User({super.key});
+class ShopSmart extends StatelessWidget {
+  const ShopSmart({super.key});
 
   // This widget is the root of your application.
   @override

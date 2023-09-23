@@ -4,11 +4,12 @@ class TitleTextWidget extends StatelessWidget {
   const TitleTextWidget(
       {super.key,
       required this.label,
-      required this.fontSize,
-      required this.fontWeight,
-       required this.color,
-      required this.fontStyle,
-      required this.textDecoration, this.maxLine});
+      this.fontSize = 18,
+      this.fontWeight = FontWeight.w800,
+      this.color,
+      this.fontStyle = FontStyle.normal,
+      this.textDecoration = TextDecoration.none,
+      this.maxLine});
   final String label;
   final int? maxLine;
   final double fontSize;
@@ -22,7 +23,7 @@ class TitleTextWidget extends StatelessWidget {
       label,
       maxLines: maxLine,
       style: TextStyle(
-           overflow: TextOverflow.ellipsis,
+          overflow: TextOverflow.ellipsis,
           fontSize: fontSize,
           fontWeight: fontWeight,
           fontStyle: fontStyle,
