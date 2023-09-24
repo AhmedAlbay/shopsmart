@@ -5,8 +5,6 @@ import 'package:shopsmart_user/screens/home_screen.dart';
 import 'package:shopsmart_user/screens/profile_screeen.dart';
 import 'package:shopsmart_user/screens/search_screen.dart';
 
-
-
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
 
@@ -22,7 +20,7 @@ class _RootScreenState extends State<RootScreen> {
     const CartScreen(),
     const ProfileScreen()
   ];
-  int currentPage = 0;
+  int currentPage = 2;
   @override
   void initState() {
     controller = PageController(
