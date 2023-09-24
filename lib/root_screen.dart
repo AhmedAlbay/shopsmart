@@ -5,6 +5,8 @@ import 'package:shopsmart_user/screens/home_screen.dart';
 import 'package:shopsmart_user/screens/profile_screeen.dart';
 import 'package:shopsmart_user/screens/search_screen.dart';
 
+
+
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
 

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:shopsmart_user/providers/theme_provider.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
+import 'package:shopsmart_user/widget/app_name_text.dart';
 import 'package:shopsmart_user/widget/custom_list_title.dart';
 import 'package:shopsmart_user/widget/subtitle.dart';
 import 'package:shopsmart_user/widget/title.dart';
@@ -14,12 +16,24 @@ class ProfileScreen extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ahmed'),
-        leading: Image.asset(AssetsManager.shoppingCart),
+        title: const AppNameText(),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset(AssetsManager.shoppingCart),
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const Visibility(
+            visible: false,
+            child: Padding(
+              padding: EdgeInsets.all(20.0),
+              child: TitleTextWidget(
+                  label: 'Please login To Have ultimate Access'),
+            ),
+          ),
+          const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Row(

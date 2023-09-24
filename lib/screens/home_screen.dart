@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:shopsmart_user/widget/subtitle.dart';
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

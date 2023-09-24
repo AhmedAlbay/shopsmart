@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:shopsmart_user/providers/theme_provider.dart';
 import 'package:shopsmart_user/root_screen.dart';
 
+
+
 import 'consts/theme_data.dart';
 
 void main() {

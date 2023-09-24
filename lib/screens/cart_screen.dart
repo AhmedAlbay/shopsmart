@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shopsmart_user/widget/title.dart';
 
+
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
