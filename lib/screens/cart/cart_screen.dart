@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopsmart_user/screens/cart/bottom_checkout.dart';
 import 'package:shopsmart_user/screens/cart/cart_widget.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
 import 'package:shopsmart_user/widget/empty_bag.dart';
@@ -21,6 +22,7 @@ class CartScreen extends StatelessWidget {
             ),
           )
         : Scaffold(
+          bottomSheet: CartBottomCheckout(),
             appBar: AppBar(
               title: const Text(
                 'Cart(5)',
