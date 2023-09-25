@@ -22,7 +22,7 @@ class CartScreen extends StatelessWidget {
             ),
           )
         : Scaffold(
-          bottomSheet: CartBottomCheckout(),
+          bottomSheet: const CartBottomCheckout(),
             appBar: AppBar(
               title: const Text(
                 'Cart(5)',
@@ -42,7 +42,7 @@ class CartScreen extends StatelessWidget {
             body: ListView.builder(
               itemCount: 15,
               itemBuilder: (context, index) {
-                return CartWidget();
+                return const CartWidget();
               },
             ),
           );

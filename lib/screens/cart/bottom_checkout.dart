@@ -21,9 +21,10 @@ class CartBottomCheckout extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TitleTextWidget(
-                      label: 'Title(6 product / 6item)',
-                      fontSize: 18,
+                    FittedBox(
+                      child: TitleTextWidget(
+                        label: 'Title(6 product / 6item)',
+                      ),
                     ),
                     SubtitleTextWidget(
                       label: '\$1535',
