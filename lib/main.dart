@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:shopsmart_user/providers/theme_provider.dart';
 import 'package:shopsmart_user/root_screen.dart';
 
-
-
 import 'consts/theme_data.dart';
 
 void main() {
@@ -14,10 +12,8 @@ void main() {
 class ShopSmart extends StatelessWidget {
   const ShopSmart({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // final themeProvider = Provider.of<ThemeProvider>(context);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -30,6 +26,7 @@ class ShopSmart extends StatelessWidget {
         child,
       ) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Shop Smart AR',
           theme: Styles.themeData(
               isDarkTheme: themeProvider.getIsDarkTheme, context: context),
