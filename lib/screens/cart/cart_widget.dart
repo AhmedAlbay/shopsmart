@@ -1,6 +1,7 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:shopsmart_user/consts/app_constant.dart';
 import 'package:shopsmart_user/screens/cart/quantitiy_bottom_sheet.dart';
 import 'package:shopsmart_user/widget/subtitle.dart';
 import 'package:shopsmart_user/widget/title.dart';
@@ -20,7 +21,7 @@ class CartWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               child: FancyShimmerImage(
                 imageUrl:
-                    'https://images.pexels.com/photos/4158/apple-iphone-smartphone-desk.jpg?auto=compress&cs=tinysrgb&w=600',
+                  AppConstant.imageUrl ,
                 height: size.height * 0.2,
                 width: size.height * 0.2,
               ),
