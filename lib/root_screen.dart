@@ -20,7 +20,7 @@ class _RootScreenState extends State<RootScreen> {
     const CartScreen(),
     const ProfileScreen()
   ];
-  int currentPage = 2;
+  int currentPage = 1;
   @override
   void initState() {
     controller = PageController(

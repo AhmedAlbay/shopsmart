@@ -25,7 +25,7 @@ class CartScreen extends StatelessWidget {
           bottomSheet: const CartBottomCheckout(),
             appBar: AppBar(
               title: const Text(
-                'Cart(5)',
+                'Shopping Products',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
               ),
               leading: Padding(
