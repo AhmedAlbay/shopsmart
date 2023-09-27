@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:shopsmart_user/consts/app_constant.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
 import 'package:shopsmart_user/widget/app_name_text.dart';
+import 'package:shopsmart_user/widget/product/last_arrival_product.dart';
+import 'package:shopsmart_user/widget/title.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -21,6 +23,7 @@ class HomeScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               height: size.height * .24,
@@ -36,6 +39,26 @@ class HomeScreen extends StatelessWidget {
                 pagination: const SwiperPagination(
                     builder: DotSwiperPaginationBuilder(
                         color: Colors.white, activeColor: Colors.red)),
+              ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            const TitleTextWidget(
+              label: 'Lastest arrival',
+              fontSize: 26,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            SizedBox(
+              height: size.height * .2,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 10,
+                itemBuilder: ((context, index) {
+                  return LastestArrivalProduct();
+                }),
               ),
             ),
           ],

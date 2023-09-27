@@ -46,8 +46,11 @@ class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
                   ),
                 ),
                 Flexible(
-                    child: IconButton(
-                        onPressed: () {}, icon: const Icon(IconlyLight.heart))),
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(IconlyLight.heart),
+                  ),
+                ),
               ],
             ),
             const SizedBox(
