@@ -1,7 +1,7 @@
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
-import 'package:shopsmart_user/widget/product/product_widget.dart';
+import 'package:shopsmart_user/widget/product/product_widget_screach.dart';
 import 'package:shopsmart_user/widget/search_textfield.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -36,7 +36,7 @@ class SearchScreen extends StatelessWidget {
                   child: DynamicHeightGridView(
                       itemCount: 200,
                       builder: (context, index) {
-                        return const ProductWidget();
+                        return const ProductWidgetSearch();
                       },
                       crossAxisCount: 2),
                 )

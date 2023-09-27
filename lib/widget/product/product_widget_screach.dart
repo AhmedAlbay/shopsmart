@@ -6,14 +6,14 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:shopsmart_user/consts/app_constant.dart';
 import 'package:shopsmart_user/widget/title.dart';
 
-class ProductWidget extends StatefulWidget {
-  const ProductWidget({super.key});
+class ProductWidgetSearch extends StatefulWidget {
+  const ProductWidgetSearch({super.key});
 
   @override
-  State<ProductWidget> createState() => _ProductWidgetState();
+  State<ProductWidgetSearch> createState() => _ProductWidgetSearchState();
 }
 
-class _ProductWidgetState extends State<ProductWidget> {
+class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
