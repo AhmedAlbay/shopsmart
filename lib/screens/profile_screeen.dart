@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopsmart_user/consts/app_constant.dart';
 
 import 'package:shopsmart_user/providers/theme_provider.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
@@ -50,7 +51,7 @@ class ProfileScreen extends StatelessWidget {
                         width: 3,
                       ),
                       image: const DecorationImage(
-                          image: NetworkImage(''), fit: BoxFit.fill),
+                          image: NetworkImage(AppConstant.imageUrl), fit: BoxFit.fill),
                     ),
                   ),
                   const SizedBox(
