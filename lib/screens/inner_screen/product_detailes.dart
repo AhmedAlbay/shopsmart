@@ -126,7 +126,7 @@ class _ProductDetailesState extends State<ProductDetailes> {
                     SubtitleTextWidget(label: 'PhoneDetailes')
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Text(
