@@ -1,10 +1,8 @@
-
-
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:shopsmart_user/consts/app_constant.dart';
 import 'package:shopsmart_user/screens/inner_screen/product_detailes.dart';
+import 'package:shopsmart_user/widget/product/custom_heart_button.dart';
 import 'package:shopsmart_user/widget/title.dart';
 
 class ProductWidgetSearch extends StatefulWidget {
@@ -44,13 +42,13 @@ class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
                   child: TitleTextWidget(
                     label: "title" * 10,
                     maxLine: 2,
+                    fontSize: 18,
                   ),
                 ),
-                Flexible(
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(IconlyLight.heart),
-                  ),
+                const Spacer(),
+                const Flexible(
+                  flex: 2,
+                  child: CustomHeartButton(),
                 ),
               ],
             ),

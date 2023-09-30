@@ -4,6 +4,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:shopsmart_user/consts/app_constant.dart';
 import 'package:shopsmart_user/screens/cart/cart_screen.dart';
 import 'package:shopsmart_user/widget/app_name_text.dart';
+import 'package:shopsmart_user/widget/product/custom_heart_button.dart';
 import 'package:shopsmart_user/widget/subtitle.dart';
 import 'package:shopsmart_user/widget/title.dart';
 
@@ -84,13 +85,8 @@ class _ProductDetailesState extends State<ProductDetailes> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Material(
+                      CustomHeartButton(
                         color: Colors.teal.shade200,
-                        shape: const CircleBorder(),
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(IconlyLight.heart),
-                        ),
                       ),
                       const SizedBox(
                         width: 15,

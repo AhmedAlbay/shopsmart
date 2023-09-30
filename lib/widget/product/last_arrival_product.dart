@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:shopsmart_user/consts/app_constant.dart';
+import 'package:shopsmart_user/widget/product/custom_heart_button.dart';
 import 'package:shopsmart_user/widget/title.dart';
 
 class LastestArrivalProduct extends StatelessWidget {
@@ -43,17 +43,11 @@ class LastestArrivalProduct extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    FittedBox(
+                    const FittedBox(
                       child: Row(
                         children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              IconlyLight.heart,
-                              size: 18,
-                            ),
-                          ),
-                          const Icon(
+                          CustomHeartButton(),
+                          Icon(
                             Icons.shopping_cart_checkout_sharp,
                             size: 18,
                           ),
