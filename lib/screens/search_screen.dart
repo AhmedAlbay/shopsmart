@@ -39,7 +39,7 @@ class SearchScreen extends StatelessWidget {
                         return const ProductWidgetSearch();
                       },
                       crossAxisCount: 2),
-                )
+                ),
               ],
             ),
           )),

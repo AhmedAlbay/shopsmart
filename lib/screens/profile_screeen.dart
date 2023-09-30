@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shopsmart_user/consts/app_constant.dart';
 
 import 'package:shopsmart_user/providers/theme_provider.dart';
+import 'package:shopsmart_user/screens/inner_screen/wishlist_screen.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
 import 'package:shopsmart_user/widget/app_name_text.dart';
 import 'package:shopsmart_user/widget/custom_list_title.dart';
@@ -51,7 +52,8 @@ class ProfileScreen extends StatelessWidget {
                         width: 3,
                       ),
                       image: const DecorationImage(
-                          image: NetworkImage(AppConstant.imageUrl), fit: BoxFit.fill),
+                          image: NetworkImage(AppConstant.imageUrl),
+                          fit: BoxFit.fill),
                     ),
                   ),
                   const SizedBox(
@@ -82,7 +84,9 @@ class ProfileScreen extends StatelessWidget {
                   CustomListTitle(
                     imagePath: AssetsManager.wishlistSvg,
                     text: 'WishList',
-                    function: () {},
+                    function: () {
+                      Navigator.pushNamed(context, WishListScreen.routeName);
+                    },
                   ),
                   CustomListTitle(
                     imagePath: AssetsManager.recent,
