@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopsmart_user/providers/theme_provider.dart';
 import 'package:shopsmart_user/root_screen.dart';
+import 'package:shopsmart_user/screens/cart/cart_screen.dart';
+import 'package:shopsmart_user/screens/inner_screen/product_detailes.dart';
 
 import 'consts/theme_data.dart';
 
@@ -26,12 +28,15 @@ class ShopSmart extends StatelessWidget {
         child,
       ) {
         return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Shop Smart AR',
-          theme: Styles.themeData(
-              isDarkTheme: themeProvider.getIsDarkTheme, context: context),
-          home: const RootScreen(),
-        );
+            debugShowCheckedModeBanner: false,
+            title: 'Shop Smart AR',
+            theme: Styles.themeData(
+                isDarkTheme: themeProvider.getIsDarkTheme, context: context),
+            home: const RootScreen(),
+            routes: {
+              ProductDetailes.routeName: (context) => const ProductDetailes(),
+              CartScreen.routeName: (context) => const CartScreen(),
+            });
       }),
     );
   }

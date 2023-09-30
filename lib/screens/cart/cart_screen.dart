@@ -5,6 +5,7 @@ import 'package:shopsmart_user/services/assets_manager.dart';
 import 'package:shopsmart_user/widget/empty_bag.dart';
 
 class CartScreen extends StatelessWidget {
+  static const routeName = 'CartScreen';
   const CartScreen({super.key});
   final bool isEmpty = false;
 
@@ -22,7 +23,7 @@ class CartScreen extends StatelessWidget {
             ),
           )
         : Scaffold(
-          bottomSheet: const CartBottomCheckout(),
+            bottomSheet: const CartBottomCheckout(),
             appBar: AppBar(
               title: const Text(
                 'Shopping Products',

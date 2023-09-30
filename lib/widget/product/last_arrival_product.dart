@@ -31,7 +31,7 @@ class LastestArrivalProduct extends StatelessWidget {
                   height: size.width * .27,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               Flexible(

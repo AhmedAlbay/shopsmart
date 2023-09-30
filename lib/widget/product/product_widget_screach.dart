@@ -1,9 +1,10 @@
-import 'dart:developer';
+
 
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:shopsmart_user/consts/app_constant.dart';
+import 'package:shopsmart_user/screens/inner_screen/product_detailes.dart';
 import 'package:shopsmart_user/widget/title.dart';
 
 class ProductWidgetSearch extends StatefulWidget {
@@ -21,7 +22,7 @@ class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () {
-          log('message');
+          Navigator.pushNamed(context, ProductDetailes.routeName);
         },
         child: Column(
           children: [
