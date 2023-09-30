@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shopsmart_user/consts/app_constant.dart';
 
 import 'package:shopsmart_user/providers/theme_provider.dart';
+import 'package:shopsmart_user/screens/inner_screen/viewed_recent.dart';
 import 'package:shopsmart_user/screens/inner_screen/wishlist_screen.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
 import 'package:shopsmart_user/widget/app_name_text.dart';
@@ -84,14 +85,16 @@ class ProfileScreen extends StatelessWidget {
                   CustomListTitle(
                     imagePath: AssetsManager.wishlistSvg,
                     text: 'WishList',
-                    function: () {
-                      Navigator.pushNamed(context, WishListScreen.routeName);
+                    function: () async{
+                      await Navigator.pushNamed(context, WishListScreen.routeName);
                     },
                   ),
                   CustomListTitle(
                     imagePath: AssetsManager.recent,
                     text: 'Viewed recent',
-                    function: () {},
+                    function: () async{
+                      await Navigator.pushNamed(context, ViewedRecentScreen.routeName);
+                    },
                   ),
                   CustomListTitle(
                     imagePath: AssetsManager.address,
