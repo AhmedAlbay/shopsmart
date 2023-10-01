@@ -6,6 +6,7 @@ import 'package:shopsmart_user/providers/theme_provider.dart';
 import 'package:shopsmart_user/screens/inner_screen/viewed_recent.dart';
 import 'package:shopsmart_user/screens/inner_screen/wishlist_screen.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
+import 'package:shopsmart_user/services/my_app_method.dart';
 import 'package:shopsmart_user/widget/app_name_text.dart';
 import 'package:shopsmart_user/widget/custom_list_title.dart';
 import 'package:shopsmart_user/widget/subtitle.dart';
@@ -85,15 +86,17 @@ class ProfileScreen extends StatelessWidget {
                   CustomListTitle(
                     imagePath: AssetsManager.wishlistSvg,
                     text: 'WishList',
-                    function: () async{
-                      await Navigator.pushNamed(context, WishListScreen.routeName);
+                    function: () async {
+                      await Navigator.pushNamed(
+                          context, WishListScreen.routeName);
                     },
                   ),
                   CustomListTitle(
                     imagePath: AssetsManager.recent,
                     text: 'Viewed recent',
-                    function: () async{
-                      await Navigator.pushNamed(context, ViewedRecentScreen.routeName);
+                    function: () async {
+                      await Navigator.pushNamed(
+                          context, ViewedRecentScreen.routeName);
                     },
                   ),
                   CustomListTitle(
@@ -141,13 +144,20 @@ class ProfileScreen extends StatelessWidget {
             ),
             Center(
               child: ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24))),
-                  onPressed: () {},
-                  icon: const Icon(Icons.login),
-                  label: const Text("LogIn")),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24))),
+                icon: const Icon(Icons.login),
+                label: const Text("LogIn"),
+                onPressed: () {
+                  MyAppMethod.showErrowWariningDialog(
+                      context: context,
+                      subTitle: 'Are You Sure',
+                      function: () {},
+                      isError:true);
+                },
+              ),
             )
           ],
         ),
