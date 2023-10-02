@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
 import 'package:shopsmart_user/widget/subtitle.dart';
+import 'package:shopsmart_user/widget/title.dart';
 
 class MyAppMethod {
   static Future<void> showErrowWariningDialog({
@@ -11,7 +12,7 @@ class MyAppMethod {
   }) async {
     await showDialog(
         context: context,
-        builder: (context) {
+        builder: (BuildContext context) {
           return AlertDialog(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               shape: RoundedRectangleBorder(
@@ -63,6 +64,60 @@ class MyAppMethod {
                   )
                 ],
               ));
+        });
+  }
+
+  static Future<void> imagePickerDialog(
+      {required BuildContext context,
+      required Function imageFCT,
+      required Function removeFCT,
+      required Function cameraFCT}) async {
+    await showDialog(
+        context: (context),
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+            title: const Center(child: TitleTextWidget(label: "chose option")),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: [
+                  TextButton.icon(
+                    onPressed: () {
+                      cameraFCT();
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                    },
+                    icon: const Icon(Icons.camera),
+                    label: const TitleTextWidget(label: 'camera'),
+                  ),
+                  TextButton.icon(
+                    onPressed: () {
+                      imageFCT();
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                    },
+                    icon: const Icon(Icons.image),
+                    label: const TitleTextWidget(label: 'Gallery'),
+                  ),
+                  TextButton.icon(
+                    onPressed: () {
+                      removeFCT();
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                    },
+                    icon: const Icon(Icons.remove),
+                    label: const TitleTextWidget(label: 'Remove'),
+                  ),
+                ],
+              ),
+            ),
+          );
         });
   }
 }

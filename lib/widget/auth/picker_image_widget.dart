@@ -37,7 +37,9 @@ class PickerImageWidget extends StatelessWidget {
           child: InkWell(
             splashColor: Colors.red,
             borderRadius: BorderRadius.circular(8),
-            onTap: () {},
+            onTap: () {
+              function();
+            },
             child: const Padding(
               padding: EdgeInsets.all(5.0),
               child: Icon(
