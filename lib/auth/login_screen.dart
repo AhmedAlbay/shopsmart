@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:shopsmart_user/consts/my_validators.dart';
 import 'package:shopsmart_user/widget/app_name_text.dart';
+import 'package:shopsmart_user/widget/auth/google_button.dart';
 import 'package:shopsmart_user/widget/subtitle.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -64,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 16,
+                  height: 30,
                 ),
                 const Align(
                   alignment: Alignment.centerLeft,
@@ -86,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 60,
                 ),
                 Form(
                   key: _formKey,
@@ -110,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ),
                       const SizedBox(
-                        height: 16,
+                        height: 20,
                       ),
                       TextFormField(
                         controller: _passwordController,
@@ -145,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 16,
+                  height: 30,
                 ),
                 Align(
                   alignment: Alignment.centerRight,
@@ -187,22 +188,46 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 16,
                 ),
-                Row(
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.all(16),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16))),
-                      child: const Text(
-                        "Guest",
-                        style: TextStyle(fontSize: 22),
-                      ),
-                      onPressed: () {
-                        _loginFCT();
-                      },
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: kBottomNavigationBarHeight + 10,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        const Expanded(
+                          flex: 2,
+                          child: SizedBox(
+                              height: kBottomNavigationBarHeight,
+                              child: FittedBox(child: GoogleButton())),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: SizedBox(
+                            height: kBottomNavigationBarHeight,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.all(16),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16))),
+                              child: const Text(
+                                "Guest",
+                                style: TextStyle(fontSize: 22),
+                              ),
+                              onPressed: () {
+                                _loginFCT();
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
