@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopsmart_user/auth/login_screen.dart';
+import 'package:shopsmart_user/auth/register_screen.dart';
 import 'package:shopsmart_user/providers/theme_provider.dart';
 import 'package:shopsmart_user/screens/cart/cart_screen.dart';
 import 'package:shopsmart_user/screens/inner_screen/product_detailes.dart';
@@ -42,6 +43,7 @@ class ShopSmart extends StatelessWidget {
               WishListScreen.routeName: (context) => const WishListScreen(),
               ViewedRecentScreen.routeName: (context) =>
                   const ViewedRecentScreen(),
+              RegisterScreen.routeName: (context) => const RegisterScreen(),
             });
       }),
     );

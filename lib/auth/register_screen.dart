@@ -1,44 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:shopsmart_user/auth/register_screen.dart';
 import 'package:shopsmart_user/consts/my_validators.dart';
 import 'package:shopsmart_user/widget/app_name_text.dart';
-import 'package:shopsmart_user/widget/auth/google_button.dart';
+
 import 'package:shopsmart_user/widget/subtitle.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
-
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+  static const routeName = 'RegisterScreen';
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  late final TextEditingController _emailController;
-  late final TextEditingController _passwordController;
-  late final FocusNode _emailFoucs;
-  late final FocusNode _passwordFoucs;
+class _RegisterScreenState extends State<RegisterScreen> {
+  late final TextEditingController _emailController,
+      _nameController,
+      _passwordController,
+      _confirmpasswordController;
+
+  late final FocusNode _emailFoucs,
+      _passwordFoucs,
+      _nameFoucs,
+      _confirmpasswordFoucs;
+
   late final _formKey = GlobalKey<FormState>();
   bool obscureText = true;
   @override
   void initState() {
     _emailController = TextEditingController();
+    _nameController = TextEditingController();
+    _confirmpasswordController = TextEditingController();
     _passwordController = TextEditingController();
     _emailFoucs = FocusNode();
     _passwordFoucs = FocusNode();
+    _nameFoucs = FocusNode();
+    _confirmpasswordFoucs = FocusNode();
+
     super.initState();
   }
 
   @override
   void dispose() {
     _emailController.dispose();
+    _nameController.dispose();
+    _confirmpasswordController.dispose();
     _passwordController.dispose();
     _emailFoucs.dispose();
+    _nameFoucs.dispose();
+    _confirmpasswordFoucs.dispose();
     _passwordFoucs.dispose();
     super.dispose();
   }
 
-  Future<void> _loginFCT() async {
+  Future<void> _registerFCT() async {
     // ignore: unused_local_variable
     final isVaild = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
@@ -83,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.centerLeft,
                   child: SubtitleTextWidget(
                     label:
-                        'Lest\'s get  you Logged in so you can start exploring',
+                        'Sign up now to receive special offers and update\nfrom you app',
                     fontSize: 14,
                   ),
                 ),
@@ -95,6 +109,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      TextFormField(
+                        controller: _nameController,
+                        focusNode: _nameFoucs,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.name,
+                        decoration: const InputDecoration(
+                          hintText: "Full name",
+                          prefixIcon: Icon(IconlyLight.profile),
+                        ),
+                        validator: (value) {
+                          return MyValidators.displayNamevalidator(value);
+                        },
+                        onFieldSubmitted: (value) {
+                          FocusScope.of(context).requestFocus(_emailFoucs);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       TextFormField(
                         controller: _emailController,
                         focusNode: _emailFoucs,
@@ -117,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         controller: _passwordController,
                         focusNode: _passwordFoucs,
-                        textInputAction: TextInputAction.done,
+                        textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: obscureText,
                         decoration: InputDecoration(
@@ -140,7 +173,41 @@ class _LoginScreenState extends State<LoginScreen> {
                           return MyValidators.passwordValidator(value);
                         },
                         onFieldSubmitted: (value) {
-                          _loginFCT();
+                          FocusScope.of(context)
+                              .requestFocus(_confirmpasswordFoucs);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        controller: _confirmpasswordController,
+                        focusNode: _confirmpasswordFoucs,
+                        textInputAction: TextInputAction.done,
+                        keyboardType: TextInputType.visiblePassword,
+                        obscureText: obscureText,
+                        decoration: InputDecoration(
+                          hintText: "Repet Password",
+                          prefixIcon: const Icon(IconlyLight.lock),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                obscureText = !obscureText;
+                              });
+                            },
+                            icon: Icon(
+                              obscureText
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                          ),
+                        ),
+                        validator: (value) {
+                          return MyValidators.repeatPasswordValidator(
+                              value: value, password: _passwordController.text);
+                        },
+                        onFieldSubmitted: (value) {
+                          _registerFCT();
                         },
                       ),
                     ],
@@ -165,87 +232,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
+                  child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.all(16),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16))),
-                    child: const Text(
-                      "Sign in",
+                    icon: const Icon(IconlyLight.addUser),
+                    label: const Text(
+                      "Sign up",
                       style: TextStyle(fontSize: 22),
                     ),
-                    onPressed: () {
-                      _loginFCT();
-                    },
+                    onPressed: () {},
                   ),
                 ),
-                const SizedBox(
-                  height: 16,
-                ),
-                SubtitleTextWidget(
-                  label: "or connect using".toUpperCase(),
-                  fontSize: 22,
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    height: kBottomNavigationBarHeight + 10,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const Expanded(
-                          flex: 2,
-                          child: SizedBox(
-                              height: kBottomNavigationBarHeight,
-                              child: FittedBox(child: GoogleButton())),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: SizedBox(
-                            height: kBottomNavigationBarHeight,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.all(16),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16))),
-                              child: const Text(
-                                "Guest",
-                                style: TextStyle(fontSize: 22),
-                              ),
-                              onPressed: () {
-                                _loginFCT();
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SubtitleTextWidget(label: ' Don\'t have an account?'),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, RegisterScreen.routeName);
-                      },
-                      child: const SubtitleTextWidget(
-                        label: "Sign up",
-                        textDecoration: TextDecoration.underline,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                  ],
-                )
               ],
             ),
           ),
