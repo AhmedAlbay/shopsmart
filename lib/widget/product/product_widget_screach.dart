@@ -66,19 +66,23 @@ class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
                   ),
                 ),
                 Flexible(
-                    child: Material(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.lightBlue,
-                  child: InkWell(
-                    splashColor: Colors.red,
+                  child: Material(
                     borderRadius: BorderRadius.circular(8),
-                    onTap: () {},
-                    child: const Padding(
-                      padding: EdgeInsets.all(5.0),
-                      child: Icon(Icons.shopping_cart_checkout_sharp),
+                    color: Colors.lightBlue,
+                    child: InkWell(
+                      splashColor: Colors.red,
+                      borderRadius: BorderRadius.circular(8),
+                      onTap: () {},
+                      child: const Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Icon(
+                          Icons.shopping_cart_checkout_sharp,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
-                )),
+                ),
               ],
             ),
             const SizedBox(
