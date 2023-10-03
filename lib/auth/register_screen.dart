@@ -60,7 +60,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // ignore: unused_local_variable
     final isVaild = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
-    if (isVaild) {}
+    if (_pickerImage == null) {
+      return MyAppMethod.showErrowWariningDialog(
+          context: context,
+          subTitle: "Make sure to pick Image",
+          function: () {});
+    }
+    if (isVaild) {
+      _formKey.currentState!.save();
+    }
+  }
+
+  Future<void> imagePicker() async {
+    final ImagePicker picker = ImagePicker();
+    MyAppMethod.imagePickerDialog(
+      context: context,
+      cameraFCT: () async {
+        _pickerImage = await picker.pickImage(source: ImageSource.camera);
+        setState(() {});
+      },
+      imageFCT: () async {
+        _pickerImage = await picker.pickImage(source: ImageSource.gallery);
+        setState(() {});
+      },
+      removeFCT: () {
+        setState(() {
+          _pickerImage = null;
+        });
+      },
+    );
   }
 
   @override
@@ -114,13 +142,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     width: size.width * 0.3,
                     child: PickerImageWidget(
                         pickerImage: _pickerImage,
-                        function: () async{
-                          await MyAppMethod.imagePickerDialog(
-                            context: context,
-                            cameraFCT: () {},
-                            imageFCT: () {},
-                            removeFCT: () {},
-                          );
+                        function: () async {
+                          await imagePicker();
                         })),
                 const SizedBox(
                   height: 30,
@@ -263,7 +286,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       "Sign up",
                       style: TextStyle(fontSize: 22),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _registerFCT();
+                    },
                   ),
                 ),
               ],
