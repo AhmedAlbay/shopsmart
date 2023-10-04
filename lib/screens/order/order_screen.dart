@@ -38,7 +38,7 @@ class OrderScreen extends StatelessWidget {
                     );
                   }),
                   separatorBuilder: ((context, index) {
-                    return Divider();
+                    return const Divider();
                   }),
                 ),
               ));

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopsmart_user/auth/forget_password_screen.dart';
 import 'package:shopsmart_user/auth/login_screen.dart';
 import 'package:shopsmart_user/auth/register_screen.dart';
 import 'package:shopsmart_user/providers/theme_provider.dart';
@@ -47,6 +48,7 @@ class ShopSmart extends StatelessWidget {
               RegisterScreen.routeName: (context) => const RegisterScreen(),
               LoginScreen.routeName: (context) => const LoginScreen(),
               OrderScreen.routeName: (context) => const OrderScreen(),
+              ForgetPasswordScreen.routename:(context) => const ForgetPasswordScreen(),
             });
       }),
     );

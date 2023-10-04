@@ -23,7 +23,6 @@ class CartScreen extends StatelessWidget {
             ),
           )
         : Scaffold(
-            bottomSheet: const CartBottomCheckout(),
             appBar: AppBar(
               title: const Text(
                 'Shopping Products',
@@ -46,6 +45,7 @@ class CartScreen extends StatelessWidget {
                 return const CartWidget();
               },
             ),
+            bottomSheet: const CartBottomCheckout(),
           );
   }
 }
