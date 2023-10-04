@@ -5,7 +5,6 @@ import 'package:shopsmart_user/consts/my_validators.dart';
 import 'package:shopsmart_user/services/my_app_method.dart';
 import 'package:shopsmart_user/widget/app_name_text.dart';
 import 'package:shopsmart_user/widget/auth/picker_image_widget.dart';
-
 import 'package:shopsmart_user/widget/subtitle.dart';
 
 class RegisterScreen extends StatefulWidget {

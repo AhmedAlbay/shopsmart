@@ -3,10 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:shopsmart_user/auth/login_screen.dart';
 import 'package:shopsmart_user/auth/register_screen.dart';
 import 'package:shopsmart_user/providers/theme_provider.dart';
+import 'package:shopsmart_user/root_screen.dart';
 import 'package:shopsmart_user/screens/cart/cart_screen.dart';
 import 'package:shopsmart_user/screens/inner_screen/product_detailes.dart';
 import 'package:shopsmart_user/screens/inner_screen/viewed_recent.dart';
 import 'package:shopsmart_user/screens/inner_screen/wishlist_screen.dart';
+import 'package:shopsmart_user/screens/order/order_screen.dart';
 
 import 'consts/theme_data.dart';
 
@@ -35,8 +37,7 @@ class ShopSmart extends StatelessWidget {
             title: 'Shop Smart AR',
             theme: Styles.themeData(
                 isDarkTheme: themeProvider.getIsDarkTheme, context: context),
-            // home: const RootScreen(),
-            home: const LoginScreen(),
+            home: const RootScreen(),
             routes: {
               ProductDetailes.routeName: (context) => const ProductDetailes(),
               CartScreen.routeName: (context) => const CartScreen(),
@@ -44,6 +45,8 @@ class ShopSmart extends StatelessWidget {
               ViewedRecentScreen.routeName: (context) =>
                   const ViewedRecentScreen(),
               RegisterScreen.routeName: (context) => const RegisterScreen(),
+              LoginScreen.routeName: (context) => const LoginScreen(),
+              OrderScreen.routeName: (context) => const OrderScreen(),
             });
       }),
     );

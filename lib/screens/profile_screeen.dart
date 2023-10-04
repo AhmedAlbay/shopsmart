@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopsmart_user/auth/login_screen.dart';
 import 'package:shopsmart_user/consts/app_constant.dart';
 
 import 'package:shopsmart_user/providers/theme_provider.dart';
 import 'package:shopsmart_user/screens/inner_screen/viewed_recent.dart';
 import 'package:shopsmart_user/screens/inner_screen/wishlist_screen.dart';
+import 'package:shopsmart_user/screens/order/order_screen.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
-import 'package:shopsmart_user/services/my_app_method.dart';
+
 import 'package:shopsmart_user/widget/app_name_text.dart';
 import 'package:shopsmart_user/widget/custom_list_title.dart';
 import 'package:shopsmart_user/widget/subtitle.dart';
@@ -81,7 +83,9 @@ class ProfileScreen extends StatelessWidget {
                   CustomListTitle(
                     imagePath: AssetsManager.orderSvg,
                     text: 'All Order',
-                    function: () {},
+                    function: () async {
+                      await Navigator.pushNamed(
+                          context, OrderScreen.routeName);},
                   ),
                   CustomListTitle(
                     imagePath: AssetsManager.wishlistSvg,
@@ -151,11 +155,12 @@ class ProfileScreen extends StatelessWidget {
                 icon: const Icon(Icons.login),
                 label: const Text("LogIn"),
                 onPressed: () {
-                  MyAppMethod.showErrowWariningDialog(
-                      context: context,
-                      subTitle: 'Are You Sure',
-                      function: () {},
-                      isError:true);
+                  Navigator.pushNamed(context, LoginScreen.routeName);
+                  //   MyAppMethod.showErrowWariningDialog(
+                  //       context: context,
+                  //       subTitle: 'Are You Sure',
+                  //       function: () {},
+                  //       isError:true);
                 },
               ),
             )
