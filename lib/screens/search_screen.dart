@@ -1,5 +1,7 @@
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shopsmart_user/providers/product_provider.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
 import 'package:shopsmart_user/widget/product/product_widget_screach.dart';
 import 'package:shopsmart_user/widget/search_textfield.dart';
@@ -9,6 +11,7 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productProvider = Provider.of<ProductProvider>(context);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -34,9 +37,14 @@ class SearchScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: DynamicHeightGridView(
-                      itemCount: 200,
+                      itemCount: productProvider.getProducts.length,
                       builder: (context, index) {
-                        return const ProductWidgetSearch();
+                        return ChangeNotifierProvider.value(
+                          value:productProvider.getProducts[index] ,
+                          child: const ProductWidgetSearch(
+                                               
+                     ),
+                        );
                       },
                       crossAxisCount: 2),
                 ),

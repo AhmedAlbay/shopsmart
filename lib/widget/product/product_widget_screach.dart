@@ -1,6 +1,7 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
-import 'package:shopsmart_user/consts/app_constant.dart';
+import 'package:provider/provider.dart';
+import 'package:shopsmart_user/model/product_model.dart';
 import 'package:shopsmart_user/screens/inner_screen/product_detailes.dart';
 import 'package:shopsmart_user/widget/product/custom_heart_button.dart';
 import 'package:shopsmart_user/widget/title.dart';
@@ -15,9 +16,10 @@ class ProductWidgetSearch extends StatefulWidget {
 class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
   @override
   Widget build(BuildContext context) {
+    final productModelProvider = Provider.of<ProductModel>(context);
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(3.0),
       child: GestureDetector(
         onTap: () {
           Navigator.pushNamed(context, ProductDetailes.routeName);
@@ -25,11 +27,11 @@ class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
         child: Column(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(18),
               child: FancyShimmerImage(
-                imageUrl: AppConstant.imageUrl,
-                width: double.infinity,
+                imageUrl: productModelProvider.productImage,
                 height: size.height * .2,
+                width: double.infinity,
               ),
             ),
             const SizedBox(
@@ -40,9 +42,9 @@ class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
                 Flexible(
                   flex: 5,
                   child: TitleTextWidget(
-                    label: "title" * 10,
+                    label: productModelProvider.productTitle,
                     maxLine: 2,
-                    fontSize: 18,
+                    fontSize: 16,
                   ),
                 ),
                 const Spacer(),
@@ -58,10 +60,10 @@ class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Flexible(
+                Flexible(
                   flex: 5,
                   child: TitleTextWidget(
-                    label: "\$1654",
+                    label: "\$${productModelProvider.productPrice}",
                     color: Colors.blue,
                   ),
                 ),
