@@ -23,6 +23,16 @@ class ProductProvider with ChangeNotifier {
     return ctgList;
   }
 
+  List<ProductModel> searchProduct(
+      {required String searchText, required List<ProductModel> passedList}) {
+    List<ProductModel> searchList = passedList
+        .where((element) => element.productTitle
+            .toLowerCase()
+            .contains(searchText.toLowerCase()))
+        .toList();
+    return searchList;
+  }
+
   final List<ProductModel> _product = [
     // Phones
 
