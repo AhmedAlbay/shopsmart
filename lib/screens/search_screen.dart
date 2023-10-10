@@ -41,8 +41,8 @@ class SearchScreen extends StatelessWidget {
                       builder: (context, index) {
                         return ChangeNotifierProvider.value(
                           value:productProvider.getProducts[index] ,
-                          child: const ProductWidgetSearch(
-                                               
+                          child:  ProductWidgetSearch(
+                                productId:    productProvider.getProducts[index].productId        
                      ),
                         );
                       },

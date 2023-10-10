@@ -40,12 +40,13 @@ class WishListScreen extends StatelessWidget {
                 ),
               ],
             ),
-            body:  DynamicHeightGridView(
+            body: DynamicHeightGridView(
                 itemCount: 200,
                 builder: (context, index) {
-                  return const ProductWidgetSearch();
+                  return const ProductWidgetSearch(
+                    productId: '',
+                  );
                 },
-                crossAxisCount: 2)
-          );
+                crossAxisCount: 2));
   }
 }

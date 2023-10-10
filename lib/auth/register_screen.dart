@@ -259,20 +259,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const SubtitleTextWidget(
-                      label: "Forget Password ?",
-                      textDecoration: TextDecoration.underline,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
