@@ -8,7 +8,7 @@ import 'package:shopsmart_user/widget/title.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
-  static const routename = 'ForgetPasswordScreen';
+  static const routeName = 'ForgetPasswordScreen';
 
   @override
   State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();

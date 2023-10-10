@@ -2,8 +2,7 @@ import 'package:shopsmart_user/model/category_model.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
 
 class AppConstant {
-  static const String imageUrl =
-      'https://i.ibb.co/G7nXCW4/3-i-Phone-14.jpg';
+  static const String imageUrl = 'https://i.ibb.co/G7nXCW4/3-i-Phone-14.jpg';
 
   static List<String> imageBanners = [
     AssetsManager.banner1,
@@ -28,7 +27,7 @@ class AppConstant {
     CategoryModel(
       id: AssetsManager.fashion,
       image: AssetsManager.fashion,
-      name: 'fashion',
+      name: 'Accessor',
     ),
     CategoryModel(
       id: AssetsManager.shoes,
@@ -38,12 +37,12 @@ class AppConstant {
     CategoryModel(
       id: AssetsManager.pc,
       image: AssetsManager.pc,
-      name: 'Pc',
+      name: 'Laptops',
     ),
     CategoryModel(
       id: AssetsManager.watch,
       image: AssetsManager.watch,
-      name: 'Watch',
+      name: 'Watches',
     ),
     CategoryModel(
       id: AssetsManager.book,

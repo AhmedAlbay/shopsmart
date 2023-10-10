@@ -11,6 +11,7 @@ import 'package:shopsmart_user/screens/inner_screen/product_detailes.dart';
 import 'package:shopsmart_user/screens/inner_screen/viewed_recent.dart';
 import 'package:shopsmart_user/screens/inner_screen/wishlist_screen.dart';
 import 'package:shopsmart_user/screens/order/order_screen.dart';
+import 'package:shopsmart_user/screens/search_screen.dart';
 
 import 'consts/theme_data.dart';
 
@@ -28,7 +29,7 @@ class ShopSmart extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ThemeProvider(),
         ),
-          ChangeNotifierProvider(
+        ChangeNotifierProvider(
           create: (_) => ProductProvider(),
         )
       ],
@@ -52,7 +53,9 @@ class ShopSmart extends StatelessWidget {
               RegisterScreen.routeName: (context) => const RegisterScreen(),
               LoginScreen.routeName: (context) => const LoginScreen(),
               OrderScreen.routeName: (context) => const OrderScreen(),
-              ForgetPasswordScreen.routename:(context) => const ForgetPasswordScreen(),
+              ForgetPasswordScreen.routeName: (context) =>
+                  const ForgetPasswordScreen(),
+              SearchScreen.routeName: (context) => const SearchScreen(),
             });
       }),
     );

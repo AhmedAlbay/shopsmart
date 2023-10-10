@@ -156,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: TextButton(
                     onPressed: () {
                       Navigator.pushNamed(
-                          context, ForgetPasswordScreen.routename);
+                          context, ForgetPasswordScreen.routeName);
                     },
                     child: const SubtitleTextWidget(
                       label: "Forget Password ?",
