@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shopsmart_user/providers/cart_provider.dart';
 import 'package:shopsmart_user/screens/cart/bottom_checkout.dart';
 import 'package:shopsmart_user/screens/cart/cart_widget.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
@@ -11,7 +13,8 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return isEmpty
+    final cartProvider = Provider.of<CartProvider>(context);
+    return cartProvider.getCartItem.isEmpty
         ? Scaffold(
             body: EmptyBagWidget(
               imagePath: AssetsManager.shoppingBasket,
@@ -24,9 +27,10 @@ class CartScreen extends StatelessWidget {
           )
         : Scaffold(
             appBar: AppBar(
-              title: const Text(
-                'Shopping Products',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
+              title: Text(
+                'Cart (${cartProvider.getCartItem.length})',
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
               ),
               leading: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -40,9 +44,11 @@ class CartScreen extends StatelessWidget {
               ],
             ),
             body: ListView.builder(
-              itemCount: 15,
+              itemCount: cartProvider.getCartItem.length,
               itemBuilder: (context, index) {
-                return const CartWidget();
+                return ChangeNotifierProvider.value(
+                    value: cartProvider.getCartItem.values.toList()[index],
+                    child: const CartWidget());
               },
             ),
             bottomSheet: const CartBottomCheckout(),

@@ -1,6 +1,7 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopsmart_user/providers/cart_provider.dart';
 import 'package:shopsmart_user/providers/product_provider.dart';
 import 'package:shopsmart_user/screens/inner_screen/product_detailes.dart';
 import 'package:shopsmart_user/widget/product/custom_heart_button.dart';
@@ -17,6 +18,7 @@ class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
     final getCurrProduct = productProvider.findById(widget.productId);
     Size size = MediaQuery.of(context).size;
     return getCurrProduct == null
@@ -25,7 +27,8 @@ class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
             padding: const EdgeInsets.all(3.0),
             child: GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, ProductDetailes.routeName ,arguments: getCurrProduct.productId);
+                Navigator.pushNamed(context, ProductDetailes.routeName,
+                    arguments: getCurrProduct.productId);
               },
               child: Column(
                 children: [
@@ -77,11 +80,21 @@ class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
                           child: InkWell(
                             splashColor: Colors.red,
                             borderRadius: BorderRadius.circular(8),
-                            onTap: () {},
-                            child: const Padding(
-                              padding: EdgeInsets.all(5.0),
+                            onTap: () {
+                              if (cartProvider.isProductInCart(
+                                  productId: getCurrProduct.productId)) {
+                                return;
+                              }
+                              cartProvider.addProductToCart(
+                                  productId: getCurrProduct.productId);
+                            },
+                            child: Padding(
+                              padding:const EdgeInsets.all(5.0),
                               child: Icon(
-                                Icons.shopping_cart_checkout_sharp,
+                                cartProvider.isProductInCart(
+                                        productId: getCurrProduct.productId)
+                                    ? Icons.check
+                                    : Icons.shopping_cart_checkout_sharp,
                                 color: Colors.white,
                               ),
                             ),
