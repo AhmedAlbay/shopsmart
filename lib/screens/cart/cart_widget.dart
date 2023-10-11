@@ -73,7 +73,8 @@ class CartWidget extends StatelessWidget {
                                     size: 30,
                                   ),
                                 ),
-                                const CustomHeartButton(
+                                 CustomHeartButton(
+                                  productId: getCurrProduct.productId,
                                   size: 24,
                                   color1: Colors.red,
                                 )

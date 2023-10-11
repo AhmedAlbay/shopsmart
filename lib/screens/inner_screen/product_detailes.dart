@@ -95,6 +95,7 @@ class _ProductDetailesState extends State<ProductDetailes> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               CustomHeartButton(
+                                productId: getCurrProduct.productId,
                                 color: Colors.teal.shade200,
                               ),
                               const SizedBox(

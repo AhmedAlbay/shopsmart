@@ -1,18 +1,22 @@
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shopsmart_user/providers/wishlist_provider.dart';
 
 import 'package:shopsmart_user/services/assets_manager.dart';
+import 'package:shopsmart_user/services/my_app_method.dart';
 import 'package:shopsmart_user/widget/empty_bag.dart';
 import 'package:shopsmart_user/widget/product/product_widget_screach.dart';
 
 class WishListScreen extends StatelessWidget {
   static const routeName = 'WishListScreen';
   const WishListScreen({super.key});
-  final bool isEmpty = false;
 
   @override
   Widget build(BuildContext context) {
-    return isEmpty
+    final wishListProvider = Provider.of<WishListProvider>(context);
+
+    return wishListProvider.getWishListItem.isEmpty
         ? Scaffold(
             body: EmptyBagWidget(
               imagePath: AssetsManager.shoppingBasket,
@@ -25,9 +29,10 @@ class WishListScreen extends StatelessWidget {
           )
         : Scaffold(
             appBar: AppBar(
-              title: const Text(
-                'WishList',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
+              title: Text(
+                'WishList(${wishListProvider.getWishListItem.length})',
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
               ),
               leading: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -35,16 +40,24 @@ class WishListScreen extends StatelessWidget {
               ),
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    MyAppMethod.showErrowWariningDialog(
+                        context: context,
+                        subTitle: "Sure Remove Item",
+                        isError: true,
+                        function: () {
+                          wishListProvider.clearLocalWishList();
+                        });
+                  },
                   icon: const Icon(Icons.delete_forever_rounded),
                 ),
               ],
             ),
             body: DynamicHeightGridView(
-                itemCount: 200,
+                itemCount: wishListProvider.getWishListItem.length,
                 builder: (context, index) {
-                  return const ProductWidgetSearch(
-                    productId: '',
+                  return  ProductWidgetSearch(
+                    productId: wishListProvider.getWishListItem.values.toList()[index].productId,
                   );
                 },
                 crossAxisCount: 2));

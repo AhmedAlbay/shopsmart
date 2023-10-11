@@ -1,9 +1,7 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shopsmart_user/consts/app_constant.dart';
 import 'package:shopsmart_user/model/product_model.dart';
-import 'package:shopsmart_user/providers/product_provider.dart';
 import 'package:shopsmart_user/screens/inner_screen/product_detailes.dart';
 import 'package:shopsmart_user/widget/product/custom_heart_button.dart';
 import 'package:shopsmart_user/widget/title.dart';
@@ -21,7 +19,7 @@ class LastestArrivalProduct extends StatelessWidget {
         width: size.width * .45,
         child: GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, ProductDetailes.routeName);
+            Navigator.pushNamed(context, ProductDetailes.routeName ,arguments: productModel.productId);
           },
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,11 +44,11 @@ class LastestArrivalProduct extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const FittedBox(
+                     FittedBox(
                       child: Row(
                         children: [
-                          CustomHeartButton(),
-                          Icon(
+                          CustomHeartButton(productId: productModel.productId,),
+                       const   Icon(
                             Icons.shopping_cart_checkout_sharp,
                             size: 18,
                           ),

@@ -54,9 +54,9 @@ class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
                         ),
                       ),
                       const Spacer(),
-                      const Flexible(
+                       Flexible(
                         flex: 2,
-                        child: CustomHeartButton(),
+                        child: CustomHeartButton(productId: getCurrProduct.productId,),
                       ),
                     ],
                   ),
