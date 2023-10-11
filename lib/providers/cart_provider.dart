@@ -23,4 +23,15 @@ class CartProvider with ChangeNotifier {
     );
     notifyListeners();
   }
+  void updateQuantity({required String productId ,required int quantity}){
+    _cartItem.update(
+      productId,
+      (item) => CartModel(
+        cardId: item.cardId,
+        productId: productId,
+        quantity: quantity,
+      ),
+    );
+    notifyListeners();
+  }
 }

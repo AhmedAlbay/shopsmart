@@ -15,97 +15,103 @@ class CartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartModelProvider = Provider.of<CartModel>(context);
-        final productProvider = Provider.of<ProductProvider>(context);
+    final productProvider = Provider.of<ProductProvider>(context);
 
-    final getCurrProduct = productProvider.findById(cartModelProvider.productId);
+    final getCurrProduct =
+        productProvider.findById(cartModelProvider.productId);
     Size size = MediaQuery.of(context).size;
     return IntrinsicWidth(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child:getCurrProduct==null?const SizedBox.shrink(): FittedBox(
-          child: Row(children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: FancyShimmerImage(
-                imageUrl:getCurrProduct.productImage,
-                height: size.height * 0.2,
-                width: size.height * 0.2,
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            IntrinsicWidth(
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: size.width * .6,
-                        child: TitleTextWidget(
-                          label: getCurrProduct.productTitle,
-                          maxLine: 2,
-                        ),
-                      ),
-                      Column(
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.clear,
-                              color: Colors.red,
-                              size: 30,
-                            ),
-                          ),
-                          const CustomHeartButton(
-                            size: 24,
-                            color1: Colors.red,
-                          )
-                        ],
-                      )
-                    ],
+        child: getCurrProduct == null
+            ? const SizedBox.shrink()
+            : FittedBox(
+                child: Row(children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: FancyShimmerImage(
+                      imageUrl: getCurrProduct.productImage,
+                      height: size.height * 0.2,
+                      width: size.height * 0.2,
+                    ),
                   ),
-                  Row(
-                    children: [
-                       SubtitleTextWidget(
-                        label: '${getCurrProduct.productPrice}\$',
-                        color: Colors.blue,
-                        fontSize: 24,
-                      ),
-                      const Spacer(),
-                      OutlinedButton.icon(
-                          style: OutlinedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16))),
-                          onPressed: () async {
-                            await showModalBottomSheet(
-                                backgroundColor:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(16),
-                                      topRight: Radius.circular(16)),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  IntrinsicWidth(
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: size.width * .6,
+                              child: TitleTextWidget(
+                                label: getCurrProduct.productTitle,
+                                maxLine: 2,
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.clear,
+                                    color: Colors.red,
+                                    size: 30,
+                                  ),
                                 ),
-                                context: context,
-                                builder: (context) {
-                                  return const QuantityBottomSheet();
-                                });
-                          },
-                          icon: const Icon(
-                            IconlyLight.arrowDown,
-                            size: 35,
-                          ),
-                          label:  Text(
-                            'ouly:${cartModelProvider.quantity}',
-                            style: const TextStyle(fontSize: 24),
-                          ))
-                    ],
+                                const CustomHeartButton(
+                                  size: 24,
+                                  color1: Colors.red,
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            SubtitleTextWidget(
+                              label: '${getCurrProduct.productPrice}\$',
+                              color: Colors.blue,
+                              fontSize: 24,
+                            ),
+                            const Spacer(),
+                            OutlinedButton.icon(
+                                style: OutlinedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(16))),
+                                onPressed: () async {
+                                  await showModalBottomSheet(
+                                      backgroundColor: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(16),
+                                            topRight: Radius.circular(16)),
+                                      ),
+                                      context: context,
+                                      builder: (context) {
+                                        return QuantityBottomSheet(
+                                          cartModel: cartModelProvider,
+                                        );
+                                      });
+                                },
+                                icon: const Icon(
+                                  IconlyLight.arrowDown,
+                                  size: 35,
+                                ),
+                                label: Text(
+                                  'ouly:${cartModelProvider.quantity}',
+                                  style: const TextStyle(fontSize: 24),
+                                ))
+                          ],
+                        )
+                      ],
+                    ),
                   )
-                ],
+                ]),
               ),
-            )
-          ]),
-        ),
       ),
     );
   }
