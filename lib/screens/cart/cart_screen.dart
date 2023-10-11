@@ -4,6 +4,7 @@ import 'package:shopsmart_user/providers/cart_provider.dart';
 import 'package:shopsmart_user/screens/cart/bottom_checkout.dart';
 import 'package:shopsmart_user/screens/cart/cart_widget.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
+import 'package:shopsmart_user/services/my_app_method.dart';
 import 'package:shopsmart_user/widget/empty_bag.dart';
 
 class CartScreen extends StatelessWidget {
@@ -38,7 +39,16 @@ class CartScreen extends StatelessWidget {
               ),
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    MyAppMethod.showErrowWariningDialog(
+                        context: context,
+                        isError: true,
+                        subTitle: "Sure Removing All Item",
+                        fontsize: 24,
+                        function: () {
+                          cartProvider.clearLocalCart();
+                        });
+                  },
                   icon: const Icon(Icons.delete_forever_rounded),
                 ),
               ],

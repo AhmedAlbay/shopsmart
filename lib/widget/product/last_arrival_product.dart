@@ -1,7 +1,9 @@
-
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shopsmart_user/consts/app_constant.dart';
+import 'package:shopsmart_user/model/product_model.dart';
+import 'package:shopsmart_user/providers/product_provider.dart';
 import 'package:shopsmart_user/screens/inner_screen/product_detailes.dart';
 import 'package:shopsmart_user/widget/product/custom_heart_button.dart';
 import 'package:shopsmart_user/widget/title.dart';
@@ -11,6 +13,7 @@ class LastestArrivalProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productModel = Provider.of<ProductModel>(context);
     Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -26,7 +29,7 @@ class LastestArrivalProduct extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: FancyShimmerImage(
-                  imageUrl: AppConstant.imageUrl,
+                  imageUrl: productModel.productImage,
                   width: size.width * .27,
                   height: size.width * .27,
                 ),
@@ -39,7 +42,7 @@ class LastestArrivalProduct extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Title' * 10,
+                      productModel.productTitle,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -54,9 +57,9 @@ class LastestArrivalProduct extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const FittedBox(
+                    FittedBox(
                       child: TitleTextWidget(
-                        label: "\$1654",
+                        label: "${productModel.productPrice}\$",
                         color: Colors.blue,
                       ),
                     ),

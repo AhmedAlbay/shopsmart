@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:provider/provider.dart';
 import 'package:shopsmart_user/model/cart_model.dart';
+import 'package:shopsmart_user/providers/cart_provider.dart';
 import 'package:shopsmart_user/providers/product_provider.dart';
 import 'package:shopsmart_user/screens/cart/quantitiy_bottom_sheet.dart';
+import 'package:shopsmart_user/services/my_app_method.dart';
 import 'package:shopsmart_user/widget/product/custom_heart_button.dart';
 import 'package:shopsmart_user/widget/subtitle.dart';
 import 'package:shopsmart_user/widget/title.dart';
@@ -16,6 +18,7 @@ class CartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final cartModelProvider = Provider.of<CartModel>(context);
     final productProvider = Provider.of<ProductProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
 
     final getCurrProduct =
         productProvider.findById(cartModelProvider.productId);
@@ -53,7 +56,17 @@ class CartWidget extends StatelessWidget {
                             Column(
                               children: [
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    MyAppMethod.showErrowWariningDialog(
+                                        context: context,
+                                        subTitle: "Sure Remove Item",
+                                        isError: true,
+                                        function: () {
+                                          cartProvider.removeOneItem(
+                                              productId:
+                                                  getCurrProduct.productId);
+                                        });
+                                  },
                                   icon: const Icon(
                                     Icons.clear,
                                     color: Colors.red,

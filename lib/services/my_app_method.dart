@@ -7,6 +7,7 @@ class MyAppMethod {
   static Future<void> showErrowWariningDialog({
     required BuildContext context,
     required String subTitle,
+      double fontsize=28,
     bool isError = false,
     required Function function,
   }) async {
@@ -31,7 +32,7 @@ class MyAppMethod {
                   ),
                   SubtitleTextWidget(
                     label: subTitle,
-                    fontSize: 28,
+                    fontSize: fontsize,
                     fontWeight: FontWeight.w600,
                   ),
                   const SizedBox(height: 15),

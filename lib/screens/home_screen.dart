@@ -1,6 +1,8 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shopsmart_user/consts/app_constant.dart';
+import 'package:shopsmart_user/providers/product_provider.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
 import 'package:shopsmart_user/widget/app_name_text.dart';
 import 'package:shopsmart_user/widget/product/categories_rounded_widget.dart';
@@ -12,6 +14,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productProvider = Provider.of<ProductProvider>(context);
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -57,9 +61,11 @@ class HomeScreen extends StatelessWidget {
                 height: size.height * .2,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 10,
+                  itemCount: productProvider.getProducts.length,
                   itemBuilder: ((context, index) {
-                    return const LastestArrivalProduct();
+                    return ChangeNotifierProvider.value(
+                        value: productProvider.getProducts[index],
+                        child: const LastestArrivalProduct());
                   }),
                 ),
               ),
