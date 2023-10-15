@@ -53,13 +53,18 @@ class WishListScreen extends StatelessWidget {
                 ),
               ],
             ),
-            body: DynamicHeightGridView(
-                itemCount: wishListProvider.getWishListItem.length,
-                builder: (context, index) {
-                  return  ProductWidgetSearch(
-                    productId: wishListProvider.getWishListItem.values.toList()[index].productId,
-                  );
-                },
-                crossAxisCount: 2));
+            body: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: DynamicHeightGridView(
+                  itemCount: wishListProvider.getWishListItem.length,
+                  builder: (context, index) {
+                    return ProductWidgetSearch(
+                      productId: wishListProvider.getWishListItem.values
+                          .toList()[index]
+                          .productId,
+                    );
+                  },
+                  crossAxisCount: 2),
+            ));
   }
 }

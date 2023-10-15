@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopsmart_user/providers/cart_provider.dart';
 import 'package:shopsmart_user/providers/product_provider.dart';
+import 'package:shopsmart_user/providers/view_product_provider.dart';
 import 'package:shopsmart_user/screens/inner_screen/product_detailes.dart';
 import 'package:shopsmart_user/widget/product/custom_heart_button.dart';
 import 'package:shopsmart_user/widget/title.dart';
@@ -20,6 +21,8 @@ class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
     final productProvider = Provider.of<ProductProvider>(context);
     final cartProvider = Provider.of<CartProvider>(context);
     final getCurrProduct = productProvider.findById(widget.productId);
+    final viewProduct = Provider.of<ViewProductProvider>(context);
+
     Size size = MediaQuery.of(context).size;
     return getCurrProduct == null
         ? const SizedBox.shrink()
@@ -27,6 +30,8 @@ class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
             padding: const EdgeInsets.all(3.0),
             child: GestureDetector(
               onTap: () {
+                viewProduct.addviewProductToHistory(
+                    productId: getCurrProduct.productId);
                 Navigator.pushNamed(context, ProductDetailes.routeName,
                     arguments: getCurrProduct.productId);
               },
@@ -54,9 +59,11 @@ class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
                         ),
                       ),
                       const Spacer(),
-                       Flexible(
+                      Flexible(
                         flex: 2,
-                        child: CustomHeartButton(productId: getCurrProduct.productId,),
+                        child: CustomHeartButton(
+                          productId: getCurrProduct.productId,
+                        ),
                       ),
                     ],
                   ),
@@ -89,7 +96,7 @@ class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
                                   productId: getCurrProduct.productId);
                             },
                             child: Padding(
-                              padding:const EdgeInsets.all(5.0),
+                              padding: const EdgeInsets.all(5.0),
                               child: Icon(
                                 cartProvider.isProductInCart(
                                         productId: getCurrProduct.productId)

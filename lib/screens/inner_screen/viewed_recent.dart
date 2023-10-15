@@ -1,5 +1,7 @@
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shopsmart_user/providers/view_product_provider.dart';
 
 import 'package:shopsmart_user/services/assets_manager.dart';
 import 'package:shopsmart_user/widget/empty_bag.dart';
@@ -8,11 +10,12 @@ import 'package:shopsmart_user/widget/product/product_widget_screach.dart';
 class ViewedRecentScreen extends StatelessWidget {
   static const routeName = 'ViewedRecentScreen';
   const ViewedRecentScreen({super.key});
-  final bool isEmpty = false;
 
   @override
   Widget build(BuildContext context) {
-    return isEmpty
+    final viewProduct = Provider.of<ViewProductProvider>(context);
+
+    return viewProduct.getviewProductItem.isEmpty
         ? Scaffold(
             body: EmptyBagWidget(
               imagePath: AssetsManager.shoppingBasket,
@@ -25,9 +28,10 @@ class ViewedRecentScreen extends StatelessWidget {
           )
         : Scaffold(
             appBar: AppBar(
-              title: const Text(
-                'ViewedRecent',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
+              title: Text(
+                'ViewedRecent(${viewProduct.getviewProductItem.length})',
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
               ),
               leading: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -40,14 +44,18 @@ class ViewedRecentScreen extends StatelessWidget {
                 ),
               ],
             ),
-            body:  DynamicHeightGridView(
-                itemCount: 200,
-                builder: (context, index) {
-                  return  const ProductWidgetSearch(
-                    productId: '',
-                  );
-                },
-                crossAxisCount: 2)
-          );
+            body: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: DynamicHeightGridView(
+                  itemCount: viewProduct.getviewProductItem.length,
+                  builder: (context, index) {
+                    return ProductWidgetSearch(
+                      productId: viewProduct.getviewProductItem.values
+                          .toList()[index]
+                          .productId,
+                    );
+                  },
+                  crossAxisCount: 2),
+            ));
   }
 }
