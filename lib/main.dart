@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:shopsmart_user/auth/forget_password_screen.dart';
 import 'package:shopsmart_user/auth/login_screen.dart';
 import 'package:shopsmart_user/auth/register_screen.dart';
@@ -18,7 +20,13 @@ import 'package:shopsmart_user/screens/search_screen.dart';
 
 import 'consts/theme_data.dart';
 
-void main() {
+Future<void> main() async {
+
+
+WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const ShopSmart());
 }
 

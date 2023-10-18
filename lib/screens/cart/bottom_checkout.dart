@@ -34,10 +34,12 @@ class CartBottomCheckout extends StatelessWidget {
                         fontSize: 24,
                       ),
                     ),
-                    SubtitleTextWidget(
-                      label:
-                          '${cartProvider.getTotal(productProvider: productProvider)}\$',
-                      color: Colors.blue,
+                    Flexible(
+                      child: SubtitleTextWidget(
+                        label:
+                            '${cartProvider.getTotal(productProvider: productProvider)}\$',
+                        color: Colors.blue,
+                      ),
                     ),
                   ],
                 ),

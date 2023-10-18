@@ -20,7 +20,7 @@ class ViewedRecentScreen extends StatelessWidget {
             body: EmptyBagWidget(
               imagePath: AssetsManager.shoppingBasket,
               title: 'Whoops!',
-              buttonText: 'Shop Now',
+              buttonText: 'Shop Now' ,
               subtitle: 'Your WishList is Empty',
               subtitle1:
                   'Looks Like You Have Not Added Anything To Your Cart \nGo head & explore tops categories ',

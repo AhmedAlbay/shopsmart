@@ -2,6 +2,7 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:provider/provider.dart';
+import 'package:shopsmart_user/providers/cart_provider.dart';
 
 import 'package:shopsmart_user/providers/product_provider.dart';
 import 'package:shopsmart_user/screens/cart/cart_screen.dart';
@@ -25,6 +26,7 @@ class _ProductDetailesState extends State<ProductDetailes> {
         Provider.of<ProductProvider>(context, listen: false);
     final productId = ModalRoute.of(context)!.settings.arguments as String;
     final getCurrProduct = productProvider.findById(productId);
+    final cartProvider = Provider.of<CartProvider>(context);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -96,7 +98,6 @@ class _ProductDetailesState extends State<ProductDetailes> {
                             children: [
                               CustomHeartButton(
                                 productId: getCurrProduct.productId,
-                                color: Colors.teal.shade200,
                               ),
                               const SizedBox(
                                 width: 15,
@@ -106,12 +107,17 @@ class _ProductDetailesState extends State<ProductDetailes> {
                                   height: kBottomNavigationBarHeight - 10,
                                   child: ElevatedButton.icon(
                                     style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.lightBlue,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(24))),
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.add_shopping_cart),
+                                    onPressed: () {
+                                      cartProvider.addProductToCart(
+                                          productId: productId);
+                                    },
+                                    icon: Icon(cartProvider.isProductInCart(
+                                            productId: productId)
+                                        ? Icons.done
+                                        : Icons.add_shopping_cart),
                                     label: const Text("Add To Cart"),
                                   ),
                                 ),

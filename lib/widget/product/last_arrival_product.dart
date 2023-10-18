@@ -2,6 +2,7 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopsmart_user/model/product_model.dart';
+import 'package:shopsmart_user/providers/cart_provider.dart';
 import 'package:shopsmart_user/providers/view_product_provider.dart';
 import 'package:shopsmart_user/screens/inner_screen/product_detailes.dart';
 import 'package:shopsmart_user/widget/product/custom_heart_button.dart';
@@ -14,6 +15,7 @@ class LastestArrivalProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     final productModel = Provider.of<ProductModel>(context);
     final viewProduct = Provider.of<ViewProductProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
 
     Size size = MediaQuery.of(context).size;
     return Padding(
@@ -56,9 +58,18 @@ class LastestArrivalProduct extends StatelessWidget {
                           CustomHeartButton(
                             productId: productModel.productId,
                           ),
-                          const Icon(
-                            Icons.shopping_cart_checkout_sharp,
-                            size: 18,
+                          IconButton(
+                            onPressed: () {
+                              cartProvider.addProductToCart(
+                                  productId: productModel.productId);
+                            },
+                            icon: Icon(
+                              cartProvider.isProductInCart(
+                                      productId: productModel.productId)
+                                  ? Icons.done
+                                  : Icons.shopping_cart_checkout_outlined,
+                              size: 26,
+                            ),
                           ),
                         ],
                       ),

@@ -2,7 +2,7 @@ import 'package:shopsmart_user/model/category_model.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
 
 class AppConstant {
-  static const String imageUrl = 'https://i.ibb.co/G7nXCW4/3-i-Phone-14.jpg';
+  static const String imageUrl = 'https://i.ibb.co/8cNwrbJ/16-Apple-Watch-Series-7.png';
 
   static List<String> imageBanners = [
     AssetsManager.banner1,
