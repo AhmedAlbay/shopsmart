@@ -21,9 +21,7 @@ import 'package:shopsmart_user/screens/search_screen.dart';
 import 'consts/theme_data.dart';
 
 Future<void> main() async {
-
-
-WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -43,12 +41,13 @@ class ShopSmart extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ProductProvider(),
         ),
-
         ChangeNotifierProvider(
           create: (_) => CartProvider(),
-        ),     ChangeNotifierProvider(
+        ),
+        ChangeNotifierProvider(
           create: (_) => WishListProvider(),
-        ),     ChangeNotifierProvider(
+        ),
+        ChangeNotifierProvider(
           create: (_) => ViewProductProvider(),
         ),
       ],
@@ -75,6 +74,7 @@ class ShopSmart extends StatelessWidget {
               ForgetPasswordScreen.routeName: (context) =>
                   const ForgetPasswordScreen(),
               SearchScreen.routeName: (context) => const SearchScreen(),
+              RootScreen.routeName: (context) => const RootScreen(),
             });
       }),
     );

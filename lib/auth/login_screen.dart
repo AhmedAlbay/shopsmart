@@ -1,8 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shopsmart_user/auth/forget_password_screen.dart';
 import 'package:shopsmart_user/auth/register_screen.dart';
 import 'package:shopsmart_user/consts/my_validators.dart';
+import 'package:shopsmart_user/root_screen.dart';
+import 'package:shopsmart_user/services/my_app_method.dart';
 import 'package:shopsmart_user/widget/app_name_text.dart';
 import 'package:shopsmart_user/widget/auth/google_button.dart';
 import 'package:shopsmart_user/widget/subtitle.dart';
@@ -20,6 +27,9 @@ class _LoginScreenState extends State<LoginScreen> {
   late final TextEditingController _passwordController;
   late final FocusNode _emailFoucs;
   late final FocusNode _passwordFoucs;
+  final auth = FirebaseAuth.instance;
+  bool isLoading = false;
+
   late final _formKey = GlobalKey<FormState>();
   bool obscureText = true;
   @override
@@ -45,6 +55,36 @@ class _LoginScreenState extends State<LoginScreen> {
     final isVaild = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (isVaild) {}
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      await auth.signInWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim());
+      Fluttertoast.showToast(
+          msg: "Login successful",
+          toastLength: Toast.LENGTH_SHORT,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      if (!mounted) return;
+      Navigator.pushReplacementNamed(context, RootScreen.routeName);
+    } on FirebaseException catch (error) {
+      return MyAppMethod.showErrowWariningDialog(
+          context: context,
+          subTitle: "an error has been occured ${error.message}",
+          fontsize: 16,
+          function: () {});
+    } catch (error) {
+      return MyAppMethod.showErrowWariningDialog(
+          context: context,
+          subTitle: "an error has been occured $error",
+          function: () {});
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override

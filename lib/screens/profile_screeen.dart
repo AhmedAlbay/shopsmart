@@ -1,3 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopsmart_user/auth/login_screen.dart';
@@ -8,6 +11,7 @@ import 'package:shopsmart_user/screens/inner_screen/viewed_recent.dart';
 import 'package:shopsmart_user/screens/inner_screen/wishlist_screen.dart';
 import 'package:shopsmart_user/screens/order/order_screen.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
+import 'package:shopsmart_user/services/my_app_method.dart';
 
 import 'package:shopsmart_user/widget/app_name_text.dart';
 import 'package:shopsmart_user/widget/custom_list_title.dart';
@@ -19,6 +23,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
@@ -84,8 +89,8 @@ class ProfileScreen extends StatelessWidget {
                     imagePath: AssetsManager.orderSvg,
                     text: 'All Order',
                     function: () async {
-                      await Navigator.pushNamed(
-                          context, OrderScreen.routeName);},
+                      await Navigator.pushNamed(context, OrderScreen.routeName);
+                    },
                   ),
                   CustomListTitle(
                     imagePath: AssetsManager.wishlistSvg,
@@ -152,15 +157,22 @@ class ProfileScreen extends StatelessWidget {
                     backgroundColor: Colors.red,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24))),
-                icon: const Icon(Icons.login),
-                label: const Text("LogIn"),
-                onPressed: () {
-                  Navigator.pushNamed(context, LoginScreen.routeName);
-                  //   MyAppMethod.showErrowWariningDialog(
-                  //       context: context,
-                  //       subTitle: 'Are You Sure',
-                  //       function: () {},
-                  //       isError:true);
+                icon: Icon(user == null ? Icons.login : Icons.logout),
+                label: Text(user == null ? "LogIn" : "LogOut"),
+                onPressed: () async {
+                  if (user == null) {
+                    Navigator.pushNamed(context, LoginScreen.routeName);
+                  } else {
+                    await MyAppMethod.showErrowWariningDialog(
+                        context: context,
+                        subTitle: 'Are You Sure',
+                        function: () async {
+                          await FirebaseAuth.instance.signOut();
+
+                          Navigator.pushNamed(context, LoginScreen.routeName);
+                        },
+                        isError: true);
+                  }
                 },
               ),
             )

@@ -1,7 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shopsmart_user/consts/my_validators.dart';
+import 'package:shopsmart_user/root_screen.dart';
 import 'package:shopsmart_user/services/my_app_method.dart';
 import 'package:shopsmart_user/widget/app_name_text.dart';
 import 'package:shopsmart_user/widget/auth/picker_image_widget.dart';
@@ -28,6 +33,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late final _formKey = GlobalKey<FormState>();
   bool obscureText = true;
   XFile? _pickerImage;
+  bool isLoading = false;
+  final auth = FirebaseAuth.instance;
   @override
   void initState() {
     _emailController = TextEditingController();
@@ -59,15 +66,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // ignore: unused_local_variable
     final isVaild = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
-    if (_pickerImage == null) {
-      return MyAppMethod.showErrowWariningDialog(
-          context: context,
-          subTitle: "Make sure to pick Image",
-          function: () {});
-    }
-    if (isVaild) {
+     if (isVaild) {
       _formKey.currentState!.save();
     }
+    // if (_pickerImage == null) {
+    //   return MyAppMethod.showErrowWariningDialog(
+    //       context: context,
+    //       subTitle: "Make sure to pick Image",
+    //       function: () {});
+    // }
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      await auth.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim());
+      Fluttertoast.showToast(
+          msg: "An account has been created",
+          toastLength: Toast.LENGTH_SHORT,
+          textColor: Colors.white,
+          fontSize: 16.0);
+           if (!mounted) return;
+      Navigator.pushReplacementNamed(context, RootScreen.routeName);
+    } on FirebaseException catch (error) {
+      return MyAppMethod.showErrowWariningDialog(
+          context: context,
+          subTitle: "an error has been occured ${error.message}",fontsize: 16,
+          function: () {});
+    } catch (error) {
+      return MyAppMethod.showErrowWariningDialog(
+          context: context,
+          subTitle: "an error has been occured $error",
+          function: () {});
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+   
   }
 
   Future<void> imagePicker() async {
