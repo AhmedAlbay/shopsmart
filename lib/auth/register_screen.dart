@@ -1,6 +1,8 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, avoid_single_cascade_in_expression_statements, await_only_futures
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -67,7 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // ignore: unused_local_variable
     final isVaild = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
-     if (isVaild) {
+    if (isVaild) {
       _formKey.currentState!.save();
     }
     // if (_pickerImage == null) {
@@ -83,17 +85,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
       await auth.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim());
+      User? user = auth.currentUser;
+      final uid = user!.uid;
+      await FirebaseFirestore.instance.collection('users')
+        ..doc(uid).set({
+          "userId": uid,
+          "userName": _nameController.text,
+          "userEmail": _emailController.text.toLowerCase(),
+          "userImage": '',
+          "createdAt": Timestamp.now(),
+          "userCart": [],
+          "userWish": [],
+        });
       Fluttertoast.showToast(
           msg: "An account has been created",
           toastLength: Toast.LENGTH_SHORT,
           textColor: Colors.white,
           fontSize: 16.0);
-           if (!mounted) return;
+      if (!mounted) return;
       Navigator.pushReplacementNamed(context, RootScreen.routeName);
     } on FirebaseException catch (error) {
       return await MyAppMethod.showErrowWariningDialog(
           context: context,
-          subTitle: "an error has been occured ${error.message}",fontsize: 16,
+          subTitle: "an error has been occured ${error.message}",
+          fontsize: 16,
           function: () {});
     } catch (error) {
       return await MyAppMethod.showErrowWariningDialog(
@@ -105,7 +120,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         isLoading = false;
       });
     }
-   
   }
 
   Future<void> imagePicker() async {
@@ -136,8 +150,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        body: LoadingManager
-        (isLoading: isLoading,
+        body: LoadingManager(
+          isLoading: isLoading,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: SingleChildScrollView(
@@ -287,7 +301,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           validator: (value) {
                             return MyValidators.repeatPasswordValidator(
-                                value: value, password: _passwordController.text);
+                                value: value,
+                                password: _passwordController.text);
                           },
                           onFieldSubmitted: (value) {
                             _registerFCT();
