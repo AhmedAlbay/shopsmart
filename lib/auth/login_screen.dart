@@ -9,6 +9,7 @@ import 'package:shopsmart_user/auth/forget_password_screen.dart';
 import 'package:shopsmart_user/auth/register_screen.dart';
 import 'package:shopsmart_user/consts/my_validators.dart';
 import 'package:shopsmart_user/root_screen.dart';
+import 'package:shopsmart_user/screens/inner_screen/loading_manager.dart';
 import 'package:shopsmart_user/services/my_app_method.dart';
 import 'package:shopsmart_user/widget/app_name_text.dart';
 import 'package:shopsmart_user/widget/auth/google_button.dart';
@@ -94,204 +95,207 @@ class _LoginScreenState extends State<LoginScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 60,
-                ),
-                const Center(
-                  child: AppNameText(
-                    fontsize: 32,
+        body: LoadingManager(
+          isLoading: isLoading,
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 60,
                   ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: SubtitleTextWidget(
-                    label: 'WelcomeBack ',
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: SubtitleTextWidget(
-                    label:
-                        'Lest\'s get  you Logged in so you can start exploring',
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(
-                  height: 60,
-                ),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextFormField(
-                        controller: _emailController,
-                        focusNode: _emailFoucs,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          hintText: "Email Address",
-                          prefixIcon: Icon(IconlyLight.message),
-                        ),
-                        validator: (value) {
-                          return MyValidators.emailValidator(value);
-                        },
-                        onFieldSubmitted: (value) {
-                          FocusScope.of(context).requestFocus(_passwordFoucs);
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        controller: _passwordController,
-                        focusNode: _passwordFoucs,
-                        textInputAction: TextInputAction.done,
-                        keyboardType: TextInputType.visiblePassword,
-                        obscureText: obscureText,
-                        decoration: InputDecoration(
-                          hintText: "********",
-                          prefixIcon: const Icon(IconlyLight.lock),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                obscureText = !obscureText;
-                              });
-                            },
-                            icon: Icon(
-                              obscureText
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                            ),
-                          ),
-                        ),
-                        validator: (value) {
-                          return MyValidators.passwordValidator(value);
-                        },
-                        onFieldSubmitted: (value) {
-                          _loginFCT();
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(
-                          context, ForgetPasswordScreen.routeName);
-                    },
-                    child: const SubtitleTextWidget(
-                      label: "Forget Password ?",
-                      textDecoration: TextDecoration.underline,
-                      fontStyle: FontStyle.italic,
+                  const Center(
+                    child: AppNameText(
+                      fontsize: 32,
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.all(16),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16))),
-                    child: const Text(
-                      "Sign in",
-                      style: TextStyle(fontSize: 22),
-                    ),
-                    onPressed: () {
-                      _loginFCT();
-                    },
+                  const SizedBox(
+                    height: 30,
                   ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                SubtitleTextWidget(
-                  label: "or connect using".toUpperCase(),
-                  fontSize: 22,
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    height: kBottomNavigationBarHeight + 10,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: SubtitleTextWidget(
+                      label: 'WelcomeBack ',
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: SubtitleTextWidget(
+                      label:
+                          'Lest\'s get  you Logged in so you can start exploring',
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 60,
+                  ),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Expanded(
-                          flex: 2,
-                          child: SizedBox(
-                              height: kBottomNavigationBarHeight,
-                              child: FittedBox(child: GoogleButton())),
+                        TextFormField(
+                          controller: _emailController,
+                          focusNode: _emailFoucs,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: const InputDecoration(
+                            hintText: "Email Address",
+                            prefixIcon: Icon(IconlyLight.message),
+                          ),
+                          validator: (value) {
+                            return MyValidators.emailValidator(value);
+                          },
+                          onFieldSubmitted: (value) {
+                            FocusScope.of(context).requestFocus(_passwordFoucs);
+                          },
                         ),
                         const SizedBox(
-                          width: 10,
+                          height: 20,
                         ),
-                        Expanded(
-                          child: SizedBox(
-                            height: kBottomNavigationBarHeight,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.all(16),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16))),
-                              child: const Text(
-                                "Guest",
-                                style: TextStyle(fontSize: 22),
-                              ),
+                        TextFormField(
+                          controller: _passwordController,
+                          focusNode: _passwordFoucs,
+                          textInputAction: TextInputAction.done,
+                          keyboardType: TextInputType.visiblePassword,
+                          obscureText: obscureText,
+                          decoration: InputDecoration(
+                            hintText: "********",
+                            prefixIcon: const Icon(IconlyLight.lock),
+                            suffixIcon: IconButton(
                               onPressed: () {
-                                _loginFCT();
+                                setState(() {
+                                  obscureText = !obscureText;
+                                });
                               },
+                              icon: Icon(
+                                obscureText
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
                             ),
                           ),
+                          validator: (value) {
+                            return MyValidators.passwordValidator(value);
+                          },
+                          onFieldSubmitted: (value) {
+                            _loginFCT();
+                          },
                         ),
                       ],
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SubtitleTextWidget(label: ' Don\'t have an account?'),
-                    TextButton(
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, RegisterScreen.routeName);
+                        Navigator.pushNamed(
+                            context, ForgetPasswordScreen.routeName);
                       },
                       child: const SubtitleTextWidget(
-                        label: "Sign up",
+                        label: "Forget Password ?",
                         textDecoration: TextDecoration.underline,
                         fontStyle: FontStyle.italic,
                       ),
                     ),
-                  ],
-                )
-              ],
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(16),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16))),
+                      child: const Text(
+                        "Sign in",
+                        style: TextStyle(fontSize: 22),
+                      ),
+                      onPressed: () {
+                        _loginFCT();
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  SubtitleTextWidget(
+                    label: "or connect using".toUpperCase(),
+                    fontSize: 22,
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      height: kBottomNavigationBarHeight + 10,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          const Expanded(
+                            flex: 2,
+                            child: SizedBox(
+                                height: kBottomNavigationBarHeight,
+                                child: FittedBox(child: GoogleButton())),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: SizedBox(
+                              height: kBottomNavigationBarHeight,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.all(16),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16))),
+                                child: const Text(
+                                  "Guest",
+                                  style: TextStyle(fontSize: 22),
+                                ),
+                                onPressed: () {
+                                  _loginFCT();
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SubtitleTextWidget(label: ' Don\'t have an account?'),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, RegisterScreen.routeName);
+                        },
+                        child: const SubtitleTextWidget(
+                          label: "Sign up",
+                          textDecoration: TextDecoration.underline,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
