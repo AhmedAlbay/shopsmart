@@ -4,9 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopsmart_user/auth/login_screen.dart';
-import 'package:shopsmart_user/consts/app_constant.dart';
+import 'package:shopsmart_user/model/user_model.dart';
 
 import 'package:shopsmart_user/providers/theme_provider.dart';
+import 'package:shopsmart_user/providers/user_provider.dart';
+import 'package:shopsmart_user/screens/inner_screen/loading_manager.dart';
 import 'package:shopsmart_user/screens/inner_screen/viewed_recent.dart';
 import 'package:shopsmart_user/screens/inner_screen/wishlist_screen.dart';
 import 'package:shopsmart_user/screens/order/order_screen.dart';
@@ -18,8 +20,45 @@ import 'package:shopsmart_user/widget/custom_list_title.dart';
 import 'package:shopsmart_user/widget/subtitle.dart';
 import 'package:shopsmart_user/widget/title.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  bool isLoading = true;
+
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel? userModel;
+  Future<void> fetchUserInfo() async {
+    if (user == null) {
+      setState(() {
+        isLoading = false;
+      });
+      return;
+    }
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    try {
+      userModel = await userProvider.fetchUserInfo();
+    } catch (error) {
+      return await MyAppMethod.showErrowWariningDialog(
+          context: context,
+          subTitle: "an error has been occured $error",
+          function: () {});
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    fetchUserInfo();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,150 +72,162 @@ class ProfileScreen extends StatelessWidget {
           child: Image.asset(AssetsManager.shoppingCart),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Visibility(
-              visible: false,
-              child: Padding(
-                padding: EdgeInsets.all(20.0),
-                child: TitleTextWidget(
-                    label: 'Please login To Have ultimate Access'),
+      body: LoadingManager(
+        isLoading: isLoading,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Visibility(
+                visible: user == null ? true : false,
+                child: const Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: TitleTextWidget(
+                      label: 'Please login To Have ultimate Access'),
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Row(
-                children: [
-                  Container(
-                    height: 60,
-                    width: 60,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Theme.of(context).cardColor,
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.background,
-                        width: 3,
+              const SizedBox(height: 10),
+              userModel == null
+                  ? const SizedBox.shrink()
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 60,
+                            width: 60,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Theme.of(context).cardColor,
+                              border: Border.all(
+                                color: Theme.of(context).colorScheme.background,
+                                width: 3,
+                              ),
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                    userModel!.userImage,
+                                  ),
+                                  fit: BoxFit.fill),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 7,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TitleTextWidget(label: userModel!.userName),
+                              SubtitleTextWidget(label: userModel!.userEmail)
+                            ],
+                          ),
+                        ],
                       ),
-                      image: const DecorationImage(
-                          image: NetworkImage(AppConstant.imageUrl),
-                          fit: BoxFit.fill),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 7,
-                  ),
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TitleTextWidget(label: 'Ahmed Mohamed'),
-                      SubtitleTextWidget(label: 'Ahmed@gmail.com')
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const TitleTextWidget(label: "General"),
-                  CustomListTitle(
-                    imagePath: AssetsManager.orderSvg,
-                    text: 'All Order',
-                    function: () async {
-                      await Navigator.pushNamed(context, OrderScreen.routeName);
-                    },
-                  ),
-                  CustomListTitle(
-                    imagePath: AssetsManager.wishlistSvg,
-                    text: 'WishList',
-                    function: () async {
-                      await Navigator.pushNamed(
-                          context, WishListScreen.routeName);
-                    },
-                  ),
-                  CustomListTitle(
-                    imagePath: AssetsManager.recent,
-                    text: 'Viewed recent',
-                    function: () async {
-                      await Navigator.pushNamed(
-                          context, ViewedRecentScreen.routeName);
-                    },
-                  ),
-                  CustomListTitle(
-                    imagePath: AssetsManager.address,
-                    text: 'Address',
-                    function: () {},
-                  ),
-                  const Divider(
-                    thickness: 1,
-                  ),
-                  const SizedBox(
-                    height: 7,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: SubtitleTextWidget(
-                        label: 'settings',
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SwitchListTile(
-                    secondary: Image.asset(
-                      AssetsManager.theme,
-                      height: 30,
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const TitleTextWidget(label: "General"),
+                    user == null
+                        ? const SizedBox.shrink()
+                        : CustomListTitle(
+                            imagePath: AssetsManager.orderSvg,
+                            text: 'All Order',
+                            function: () async {
+                              await Navigator.pushNamed(
+                                  context, OrderScreen.routeName);
+                            },
+                          ),
+                    user == null
+                        ? const SizedBox.shrink()
+                        : CustomListTitle(
+                            imagePath: AssetsManager.wishlistSvg,
+                            text: 'WishList',
+                            function: () async {
+                              await Navigator.pushNamed(
+                                  context, WishListScreen.routeName);
+                            },
+                          ),
+                    CustomListTitle(
+                      imagePath: AssetsManager.recent,
+                      text: 'Viewed recent',
+                      function: () async {
+                        await Navigator.pushNamed(
+                            context, ViewedRecentScreen.routeName);
+                      },
                     ),
-                    title: Text(themeProvider.getIsDarkTheme
-                        ? "Dark mode"
-                        : "Light mode"),
-                    value: themeProvider.getIsDarkTheme,
-                    onChanged: (value) {
-                      themeProvider.setDarkTheme(themeValue: value);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 7,
-                  ),
-                  const Divider(
-                    thickness: 1,
-                  ),
-                ],
+                    CustomListTitle(
+                      imagePath: AssetsManager.address,
+                      text: 'Address',
+                      function: () {},
+                    ),
+                    const Divider(
+                      thickness: 1,
+                    ),
+                    const SizedBox(
+                      height: 7,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: SubtitleTextWidget(
+                          label: 'settings',
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SwitchListTile(
+                      secondary: Image.asset(
+                        AssetsManager.theme,
+                        height: 30,
+                      ),
+                      title: Text(themeProvider.getIsDarkTheme
+                          ? "Dark mode"
+                          : "Light mode"),
+                      value: themeProvider.getIsDarkTheme,
+                      onChanged: (value) {
+                        themeProvider.setDarkTheme(themeValue: value);
+                      },
+                    ),
+                    const SizedBox(
+                      height: 7,
+                    ),
+                    const Divider(
+                      thickness: 1,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Center(
-              child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24))),
-                icon: Icon(user == null ? Icons.login : Icons.logout),
-                label: Text(user == null ? "LogIn" : "LogOut"),
-                onPressed: () async {
-                  if (user == null) {
-                    Navigator.pushNamed(context, LoginScreen.routeName);
-                  } else {
-                    await MyAppMethod.showErrowWariningDialog(
-                        context: context,
-                        subTitle: 'Are You Sure',
-                        function: () async {
-                          await FirebaseAuth.instance.signOut();
+              Center(
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24))),
+                  icon: Icon(user == null ? Icons.login : Icons.logout),
+                  label: Text(user == null ? "LogIn" : "LogOut"),
+                  onPressed: () async {
+                    if (user == null) {
+                      Navigator.pushNamed(context, LoginScreen.routeName);
+                    } else {
+                      await MyAppMethod.showErrowWariningDialog(
+                          context: context,
+                          subTitle: 'Are You Sure',
+                          function: () async {
+                            await FirebaseAuth.instance.signOut();
 
-                          Navigator.pushNamed(context, LoginScreen.routeName);
-                        },
-                        isError: true);
-                  }
-                },
-              ),
-            )
-          ],
+                            Navigator.pushNamed(context, LoginScreen.routeName);
+                          },
+                          isError: true);
+                    }
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -1,7 +1,6 @@
-// ignore_for_file: use_build_context_synchronously, avoid_single_cascade_in_expression_statements, await_only_futures
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+// ignore: unnecessary_import
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -87,16 +86,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
           password: _passwordController.text.trim());
       User? user = auth.currentUser;
       final uid = user!.uid;
-      await FirebaseFirestore.instance.collection('users')
-        ..doc(uid).set({
-          "userId": uid,
-          "userName": _nameController.text,
-          "userEmail": _emailController.text.toLowerCase(),
-          "userImage": '',
-          "createdAt": Timestamp.now(),
-          "userCart": [],
-          "userWish": [],
-        });
+      await FirebaseFirestore.instance.collection('users').doc(uid).set({
+        "userId": uid,
+        "userName": _nameController.text,
+        "userEmail": _emailController.text.toLowerCase(),
+        "userImage": '',
+        "createdAt": Timestamp.now(),
+        "userCart": [],
+        "userWish": [],
+      });
       Fluttertoast.showToast(
           msg: "An account has been created",
           toastLength: Toast.LENGTH_SHORT,

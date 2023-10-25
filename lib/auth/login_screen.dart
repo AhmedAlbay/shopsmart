@@ -260,13 +260,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                 style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.all(16),
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(16))),
+                                        borderRadius:
+                                            BorderRadius.circular(16))),
                                 child: const Text(
                                   "Guest",
                                   style: TextStyle(fontSize: 22),
                                 ),
                                 onPressed: () {
-                                  _loginFCT();
+                                  Navigator.pushReplacementNamed(
+                                      context, RootScreen.routeName);
                                 },
                               ),
                             ),
@@ -281,10 +283,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SubtitleTextWidget(label: ' Don\'t have an account?'),
+                      const SubtitleTextWidget(
+                          label: ' Don\'t have an account?'),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, RegisterScreen.routeName);
+                          Navigator.pushNamed(
+                              context, RegisterScreen.routeName);
                         },
                         child: const SubtitleTextWidget(
                           label: "Sign up",
