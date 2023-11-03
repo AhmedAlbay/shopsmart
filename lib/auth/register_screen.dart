@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // ignore: unnecessary_import
@@ -36,6 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool obscureText = true;
   XFile? _pickerImage;
   bool isLoading = false;
+  String? userImageUrl;
   final auth = FirebaseAuth.instance;
   @override
   void initState() {
@@ -68,19 +71,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // ignore: unused_local_variable
     final isVaild = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
+    if (_pickerImage == null) {
+      return MyAppMethod.showErrowWariningDialog(
+          context: context,
+          subTitle: "Make sure to pick Image",
+          function: () {});
+    }
     if (isVaild) {
       _formKey.currentState!.save();
     }
-    // if (_pickerImage == null) {
-    //   return MyAppMethod.showErrowWariningDialog(
-    //       context: context,
-    //       subTitle: "Make sure to pick Image",
-    //       function: () {});
-    // }
+
     try {
       setState(() {
         isLoading = true;
       });
+      final ref = FirebaseStorage.instance
+          .ref()
+          .child("usersImages")
+          .child("${_emailController.text.trim()}.jpg");
+      await ref.putFile(File(_pickerImage!.path));
+      userImageUrl = await ref.getDownloadURL();
+
       await auth.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim());
@@ -90,7 +101,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         "userId": uid,
         "userName": _nameController.text,
         "userEmail": _emailController.text.toLowerCase(),
-        "userImage": '',
+        "userImage": userImageUrl,
         "createdAt": Timestamp.now(),
         "userCart": [],
         "userWish": [],
@@ -102,7 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           fontSize: 16.0);
       if (!mounted) return;
       Navigator.pushReplacementNamed(context, RootScreen.routeName);
-    } on FirebaseException catch (error) {
+    } on FirebaseAuthException catch (error) {
       return await MyAppMethod.showErrowWariningDialog(
           context: context,
           subTitle: "an error has been occured ${error.message}",
