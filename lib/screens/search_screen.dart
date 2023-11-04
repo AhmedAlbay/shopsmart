@@ -63,72 +63,96 @@ class _SearchScreenState extends State<SearchScreen> {
                       fontSize: 26,
                     ),
                   )
-                : Column(
-                    children: [
-                      TextField(
-                        controller: searchTextController,
-                        decoration: InputDecoration(
-                          filled: true,
-                          hintText: 'Search',
-                          prefixIcon: const Icon(
-                            Icons.search,
-                            color: Colors.blue,
-                          ),
-                          suffixIcon: GestureDetector(
-                              onTap: () {
-                                // setState(() {
-                                searchTextController.clear();
-                                FocusScope.of(context).unfocus();
-                                // });
-                              },
-                              child: const Icon(
-                                Icons.clear,
-                                color: Colors.red,
-                              )),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            productListSearch = productProvider.searchProduct(
-                                searchText: searchTextController.text,
-                                passedList: productListSearch);
-                          });
-                        },
-                        onSubmitted: (value) {
-                          setState(() {
-                            productListSearch = productProvider.searchProduct(
-                                searchText: searchTextController.text,
-                                passedList: productListSearch);
-                          });
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      if (searchTextController.text.isNotEmpty &&
-                          productListSearch.isEmpty) ...[
-                        const Center(
+                : StreamBuilder<List<ProductModel>>(
+                    stream: productProvider.fetchProductStream(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(
                           child: TitleTextWidget(
-                            label: "No Result Found",
-                            fontSize: 28,
-                          ),
-                        )
-                      ],
-                      Expanded(
-                        child: DynamicHeightGridView(
-                            itemCount: searchTextController.text.isNotEmpty
-                                ? productListSearch.length
-                                : productctgList.length,
-                            builder: (context, index) {
-                              return ProductWidgetSearch(
-                                  productId:
+                              label: snapshot.hasError.toString()),
+                        );
+                      }
+                      else if (snapshot.data ==null){
+                         return const Center(
+                          child: TitleTextWidget(
+                              label: "NO Product Founded"),
+                        );
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            TextField(
+                              controller: searchTextController,
+                              decoration: InputDecoration(
+                                filled: true,
+                                hintText: 'Search',
+                                prefixIcon: const Icon(
+                                  Icons.search,
+                                  color: Colors.blue,
+                                ),
+                                suffixIcon: GestureDetector(
+                                    onTap: () {
+                                      // setState(() {
+                                      searchTextController.clear();
+                                      FocusScope.of(context).unfocus();
+                                      // });
+                                    },
+                                    child: const Icon(
+                                      Icons.clear,
+                                      color: Colors.red,
+                                    )),
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  productListSearch =
+                                      productProvider.searchProduct(
+                                          searchText: searchTextController.text,
+                                          passedList: productListSearch);
+                                });
+                              },
+                              onSubmitted: (value) {
+                                setState(() {
+                                  productListSearch =
+                                      productProvider.searchProduct(
+                                          searchText: searchTextController.text,
+                                          passedList: productListSearch);
+                                });
+                              },
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            if (searchTextController.text.isNotEmpty &&
+                                productListSearch.isEmpty) ...[
+                              const Center(
+                                child: TitleTextWidget(
+                                  label: "No Result Found",
+                                  fontSize: 28,
+                                ),
+                              )
+                            ],
+                            Expanded(
+                              child: DynamicHeightGridView(
+                                  itemCount:
                                       searchTextController.text.isNotEmpty
-                                          ? productListSearch[index].productId
-                                          : productctgList[index].productId);
-                            },
-                            crossAxisCount: 2),
-                      ),
-                    ],
-                  ),
+                                          ? productListSearch.length
+                                          : productctgList.length,
+                                  builder: (context, index) {
+                                    return ProductWidgetSearch(
+                                        productId: searchTextController
+                                                .text.isNotEmpty
+                                            ? productListSearch[index].productId
+                                            : productctgList[index].productId);
+                                  },
+                                  crossAxisCount: 2),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
           )),
     );
   }
