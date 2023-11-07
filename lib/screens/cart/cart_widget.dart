@@ -61,10 +61,18 @@ class CartWidget extends StatelessWidget {
                                         context: context,
                                         subTitle: "Sure Remove Item",
                                         isError: true,
-                                        function: () {
-                                          cartProvider.removeOneItem(
-                                              productId:
-                                                  getCurrProduct.productId);
+                                        function: () async {
+                                          await cartProvider
+                                              .removeItemCartFromFirebase(
+                                            cartId: cartModelProvider.cartId,
+                                            productId:
+                                                cartModelProvider.productId,
+                                            quantity:
+                                                cartModelProvider.quantity,
+                                          );
+                                          // cartProvider.removeOneItem(
+                                          //     productId:
+                                          //         getCurrProduct.productId);
                                         });
                                   },
                                   icon: const Icon(
@@ -73,7 +81,7 @@ class CartWidget extends StatelessWidget {
                                     size: 30,
                                   ),
                                 ),
-                                 CustomHeartButton(
+                                CustomHeartButton(
                                   productId: getCurrProduct.productId,
                                   size: 24,
                                   color1: Colors.red,

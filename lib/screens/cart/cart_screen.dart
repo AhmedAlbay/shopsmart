@@ -45,8 +45,8 @@ class CartScreen extends StatelessWidget {
                         isError: true,
                         subTitle: "Sure Removing All Item",
                         fontsize: 24,
-                        function: () {
-                          cartProvider.clearLocalCart();
+                        function: () async {
+                          await cartProvider.clearCartFromFirebase();
                         });
                   },
                   icon: const Icon(Icons.delete_forever_rounded),

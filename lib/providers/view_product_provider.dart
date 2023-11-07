@@ -19,4 +19,8 @@ class ViewProductProvider with ChangeNotifier {
 
     notifyListeners();
   }
+   void clearLocaViewRecent() {
+    _viewProductItem.clear();
+    notifyListeners();
+  }
 }

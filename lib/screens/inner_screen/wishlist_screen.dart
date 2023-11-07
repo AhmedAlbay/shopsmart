@@ -45,8 +45,8 @@ class WishListScreen extends StatelessWidget {
                         context: context,
                         subTitle: "Sure Remove Item",
                         isError: true,
-                        function: () {
-                          wishListProvider.clearLocalWishList();
+                        function: () async {
+                         await wishListProvider.clearWishListFromFirebase();
                         });
                   },
                   icon: const Icon(Icons.delete_forever_rounded),
