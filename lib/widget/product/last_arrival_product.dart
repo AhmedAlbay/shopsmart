@@ -5,6 +5,7 @@ import 'package:shopsmart_user/model/product_model.dart';
 import 'package:shopsmart_user/providers/cart_provider.dart';
 import 'package:shopsmart_user/providers/view_product_provider.dart';
 import 'package:shopsmart_user/screens/inner_screen/product_detailes.dart';
+import 'package:shopsmart_user/services/my_app_method.dart';
 import 'package:shopsmart_user/widget/product/custom_heart_button.dart';
 import 'package:shopsmart_user/widget/title.dart';
 
@@ -59,9 +60,23 @@ class LastestArrivalProduct extends StatelessWidget {
                             productId: productModel.productId,
                           ),
                           IconButton(
-                            onPressed: () {
-                              cartProvider.addProductToCart(
-                                  productId: productModel.productId);
+                            onPressed: ()async {
+                              if (cartProvider.isProductInCart(
+                                  productId: productModel.productId)) {
+                                return;
+                              }
+                              try {
+                                await cartProvider.addToCartFirebase(
+                                    productId: productModel.productId,
+                                    qty: 1,
+                                    context: context);
+                              } catch (error ) {
+                                // ignore: use_build_context_synchronously
+                                MyAppMethod.showErrowWariningDialog(
+                                    context: context,
+                                    subTitle: error.toString(),
+                                    function: () {});
+                              }
                             },
                             icon: Icon(
                               cartProvider.isProductInCart(

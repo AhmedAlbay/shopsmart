@@ -37,16 +37,21 @@ class ProductProvider with ChangeNotifier {
   final productsDB = FirebaseFirestore.instance.collection("Products");
   Future<List<ProductModel>> fetchProducts() async {
     try {
-      productsDB.get().then((productsSnapshot) {
+      productsDB
+          .orderBy('createdAt', descending: false)
+          .get()
+          .then((productsSnapshot) {
         for (var element in productsSnapshot.docs) {
           _product.insert(0, ProductModel.fromFireStore(element));
-        }
+        } notifyListeners();
       });
-      notifyListeners();
+      
+  
       return _product;
     } catch (error) {
       rethrow;
     }
+  
   }
 
   Stream<List<ProductModel>> fetchProductStream() {

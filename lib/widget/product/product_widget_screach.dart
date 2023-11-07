@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +7,7 @@ import 'package:shopsmart_user/providers/cart_provider.dart';
 import 'package:shopsmart_user/providers/product_provider.dart';
 import 'package:shopsmart_user/providers/view_product_provider.dart';
 import 'package:shopsmart_user/screens/inner_screen/product_detailes.dart';
+import 'package:shopsmart_user/services/my_app_method.dart';
 import 'package:shopsmart_user/widget/product/custom_heart_button.dart';
 import 'package:shopsmart_user/widget/title.dart';
 
@@ -87,13 +90,19 @@ class _ProductWidgetSearchState extends State<ProductWidgetSearch> {
                           child: InkWell(
                             splashColor: Colors.red,
                             borderRadius: BorderRadius.circular(8),
-                            onTap: () {
+                            onTap: () async {
                               if (cartProvider.isProductInCart(
                                   productId: getCurrProduct.productId)) {
                                 return;
                               }
-                              cartProvider.addProductToCart(
-                                  productId: getCurrProduct.productId);
+                              try {
+                                await cartProvider.fetchCart();
+                              } catch (error) {
+                                MyAppMethod.showErrowWariningDialog(
+                                    context: context,
+                                    subTitle: error.toString(),
+                                    function: () {});
+                              }
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),

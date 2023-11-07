@@ -6,6 +6,7 @@ import 'package:shopsmart_user/providers/cart_provider.dart';
 
 import 'package:shopsmart_user/providers/product_provider.dart';
 import 'package:shopsmart_user/screens/cart/cart_screen.dart';
+import 'package:shopsmart_user/services/my_app_method.dart';
 import 'package:shopsmart_user/widget/app_name_text.dart';
 import 'package:shopsmart_user/widget/product/custom_heart_button.dart';
 import 'package:shopsmart_user/widget/subtitle.dart';
@@ -42,8 +43,9 @@ class _ProductDetailesState extends State<ProductDetailes> {
                 onPressed: () {
                   Navigator.pushNamed(context, CartScreen.routeName);
                 },
-                icon: const Badge(
-                    label: Text('6'), child: Icon(IconlyLight.bag2))),
+                icon: Badge(
+                    label: Text("${cartProvider.getCartItem.length}"),
+                    child: const Icon(IconlyLight.bag2))),
           ),
         ],
       ),
@@ -110,9 +112,26 @@ class _ProductDetailesState extends State<ProductDetailes> {
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(24))),
-                                    onPressed: () {
-                                      cartProvider.addProductToCart(
-                                          productId: productId);
+                                    onPressed: () async {
+                                      if (cartProvider.isProductInCart(
+                                          productId:
+                                              getCurrProduct.productId)) {
+                                        return;
+                                      }
+                                      try {
+                                        await cartProvider.addToCartFirebase(
+                                            productId: getCurrProduct.productId,
+                                            qty: 1,
+                                            context: context);
+                                      } catch (error) {
+                                        // ignore: use_build_context_synchronously
+                                        MyAppMethod.showErrowWariningDialog(
+                                            context: context,
+                                            subTitle: error.toString(),
+                                            function: () {});
+                                      }
+                                      // cartProvider.addProductToCart(
+                                      //     productId: productId);
                                     },
                                     icon: Icon(cartProvider.isProductInCart(
                                             productId: productId)

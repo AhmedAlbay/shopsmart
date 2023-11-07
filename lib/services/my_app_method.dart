@@ -5,7 +5,7 @@ import 'package:shopsmart_user/widget/title.dart';
 
 class MyAppMethod {
   static Future<void> showErrowWariningDialog({
-    required BuildContext context,
+     required BuildContext context ,
     required String subTitle,
       double fontsize=28,
     bool isError = false,
