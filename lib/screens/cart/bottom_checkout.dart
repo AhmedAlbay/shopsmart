@@ -6,8 +6,8 @@ import 'package:shopsmart_user/widget/subtitle.dart';
 import 'package:shopsmart_user/widget/title.dart';
 
 class CartBottomCheckout extends StatelessWidget {
-  const CartBottomCheckout({super.key});
-
+  const CartBottomCheckout({super.key, required this.function});
+  final Function function;
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
@@ -45,7 +45,11 @@ class CartBottomCheckout extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              ElevatedButton(onPressed: () {}, child: const Text('Checkout'))
+              ElevatedButton(
+                  onPressed: () {
+                    function();
+                  },
+                  child: const Text('Checkout'))
             ],
           ),
         ),
