@@ -1,7 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:shopsmart_user/auth/login_screen.dart';
 import 'package:shopsmart_user/consts/my_validators.dart';
 import 'package:shopsmart_user/services/assets_manager.dart';
+import 'package:shopsmart_user/services/my_app_method.dart';
 import 'package:shopsmart_user/widget/app_name_text.dart';
 import 'package:shopsmart_user/widget/subtitle.dart';
 import 'package:shopsmart_user/widget/title.dart';
@@ -34,6 +39,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   Future<void> forgetpassFCT() async {
     final isvaild = _formkey.currentState!.validate();
     FocusScope.of(context).unfocus();
+
     if (isvaild) {}
   }
 
@@ -105,7 +111,32 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18),
                         )),
-                    onPressed: () {},
+                    onPressed: () async {
+                      if (_emailController.text.isEmpty) {
+                        MyAppMethod.showErrowWariningDialog(
+                            context: context,
+                            subTitle: "Please Enter an Email",
+                            function: () {});
+                      } else {
+                        try {
+                          await FirebaseAuth.instance.sendPasswordResetEmail(
+                              email: _emailController.text);
+                        } catch (error) {
+                          MyAppMethod.showErrowWariningDialog(
+                              context: context,
+                              subTitle: "$error",
+                              function: () {});
+                        }
+
+                        Navigator.pushReplacementNamed(
+                            context, LoginScreen.routeName);
+                        MyAppMethod.showErrowWariningDialog(
+                            context: context,
+                            subTitle:
+                                "Please check an Email to Reset A New Passord",
+                            function: () {});
+                      }
+                    },
                     icon: const Icon(
                       IconlyLight.send,
                       size: 23,

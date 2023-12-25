@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,7 +11,6 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shopsmart_user/consts/my_validators.dart';
-import 'package:shopsmart_user/root_screen.dart';
 import 'package:shopsmart_user/screens/inner_screen/loading_manager.dart';
 import 'package:shopsmart_user/services/my_app_method.dart';
 import 'package:shopsmart_user/widget/app_name_text.dart';
@@ -97,6 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           password: _passwordController.text.trim());
       User? user = auth.currentUser;
       final uid = user!.uid;
+      
       await FirebaseFirestore.instance.collection('users').doc(uid).set({
         "userId": uid,
         "userName": _nameController.text,
@@ -106,13 +108,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         "userCart": [],
         "userWish": [],
       });
+       
       Fluttertoast.showToast(
           msg: "An account has been created",
           toastLength: Toast.LENGTH_SHORT,
           textColor: Colors.white,
           fontSize: 16.0);
-      if (!mounted) return;
-      Navigator.pushReplacementNamed(context, RootScreen.routeName);
+  
     } on FirebaseAuthException catch (error) {
       return await MyAppMethod.showErrowWariningDialog(
           context: context,

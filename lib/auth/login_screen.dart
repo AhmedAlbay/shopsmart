@@ -63,13 +63,20 @@ class _LoginScreenState extends State<LoginScreen> {
       await auth.signInWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim());
-      Fluttertoast.showToast(
-          msg: "Login successful",
-          toastLength: Toast.LENGTH_SHORT,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      if (!mounted) return;
-      Navigator.pushReplacementNamed(context, RootScreen.routeName);
+      if (auth.currentUser!.emailVerified) {
+        Navigator.pushReplacementNamed(context, RootScreen.routeName);
+        Fluttertoast.showToast(
+            msg: "Login successful",
+            toastLength: Toast.LENGTH_SHORT,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else {
+        FirebaseAuth.instance.currentUser!.sendEmailVerification();
+        MyAppMethod.showErrowWariningDialog(
+            context: context,
+            subTitle: "Please check an Email to verified",
+            function: () {});
+      }
     } on FirebaseException catch (error) {
       return MyAppMethod.showErrowWariningDialog(
           context: context,

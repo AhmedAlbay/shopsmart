@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,6 +31,7 @@ Future<void> main() async {
   runApp(const ShopSmart());
 }
 
+
 class ShopSmart extends StatelessWidget {
   const ShopSmart({super.key});
 
@@ -39,7 +41,8 @@ class ShopSmart extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => ThemeProvider(),
-        ), ChangeNotifierProvider(
+        ),
+        ChangeNotifierProvider(
           create: (_) => OrderProvider(),
         ),
         ChangeNotifierProvider(
@@ -68,7 +71,10 @@ class ShopSmart extends StatelessWidget {
             title: 'Shop Smart AR',
             theme: Styles.themeData(
                 isDarkTheme: themeProvider.getIsDarkTheme, context: context),
-            home: const RootScreen(),
+            home: (FirebaseAuth.instance.currentUser != null &&
+                    FirebaseAuth.instance.currentUser!.emailVerified)
+                ? const RootScreen()
+                : const LoginScreen(),
             routes: {
               ProductDetailes.routeName: (context) => const ProductDetailes(),
               CartScreen.routeName: (context) => const CartScreen(),

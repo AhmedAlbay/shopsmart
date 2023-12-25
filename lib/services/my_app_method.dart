@@ -5,9 +5,9 @@ import 'package:shopsmart_user/widget/title.dart';
 
 class MyAppMethod {
   static Future<void> showErrowWariningDialog({
-     required BuildContext context ,
+    required BuildContext context,
     required String subTitle,
-      double fontsize=28,
+    double fontsize = 28,
     bool isError = false,
     required Function function,
   }) async {
@@ -51,14 +51,17 @@ class MyAppMethod {
                           ),
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          function();
-                          Navigator.pop(context);
-                        },
-                        child: const SubtitleTextWidget(
-                          label: "Ok",
-                          color: Colors.red,
+                      Align(
+                        alignment: Alignment.center,
+                        child: TextButton(
+                          onPressed: () {
+                            function();
+                            Navigator.pop(context);
+                          },
+                          child: const SubtitleTextWidget(
+                            label: "Ok",
+                            color: Colors.red,
+                          ),
                         ),
                       ),
                     ],

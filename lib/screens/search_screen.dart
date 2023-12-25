@@ -77,7 +77,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       else if (snapshot.data ==null){
                          return const Center(
                           child: TitleTextWidget(
-                              label: "NO Product Founded"),
+                              label: "NO Product has been added"),
                         );
                       }
                       return Padding(
@@ -95,30 +95,30 @@ class _SearchScreenState extends State<SearchScreen> {
                                 ),
                                 suffixIcon: GestureDetector(
                                     onTap: () {
-                                      setState(() {
+                                      // setState(() {
                                       searchTextController.clear();
                                       FocusScope.of(context).unfocus();
-                                      });
+                                      // });
                                     },
                                     child: const Icon(
                                       Icons.clear,
                                       color: Colors.red,
                                     )),
                               ),
-                              onChanged: (value) {
-                                setState(() {
-                                  productListSearch =
-                                      productProvider.searchProduct(
-                                          searchText: searchTextController.text,
-                                          passedList: productListSearch);
-                                });
-                              },
+                              // onChanged: (value) {
+                              //   setState(() {
+                              //     productListSearch =
+                              //         productProvider.searchProduct(
+                              //             searchText: searchTextController.text,
+                              //             passedList: productctgList);
+                              //   });
+                              //},
                               onSubmitted: (value) {
                                 setState(() {
                                   productListSearch =
                                       productProvider.searchProduct(
                                           searchText: searchTextController.text,
-                                          passedList: productListSearch);
+                                          passedList: productctgList);
                                 });
                               },
                             ),
@@ -132,7 +132,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   label: "No Result Found",
                                   fontSize: 28,
                                 ),
-                              )
+                              ),
                             ],
                             Expanded(
                               child: DynamicHeightGridView(
