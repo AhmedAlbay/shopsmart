@@ -8,7 +8,6 @@ import 'package:shopsmart_user/providers/product_provider.dart';
 import 'package:uuid/uuid.dart';
 
 class CartProvider with ChangeNotifier {
-
   final Map<String, CartModel> _cartItem = {};
   Map<String, CartModel> get getCartItem {
     return _cartItem;
@@ -32,6 +31,9 @@ class CartProvider with ChangeNotifier {
 
   double getTotal({required ProductProvider productProvider}) {
     double total = 0.0;
+    double finalTotal = 0.0;
+  double discount = 0.0;
+  double shippingCost = 0.0;
     _cartItem.forEach((key, value) {
       final ProductModel? getCurrProduct =
           productProvider.findById(value.productId);
@@ -41,8 +43,26 @@ class CartProvider with ChangeNotifier {
         total += double.parse(getCurrProduct.productPrice) * value.quantity;
       }
     });
-    return total;
+     if (total > 5000) {
+    // Apply a 20% discount for total price > 5000
+    discount = 0.2 * total;
   }
+
+  if (total > 500) {
+    // Free shipping for total price > 500
+    shippingCost = 0.0;
+  } else {
+    // Shipping cost of 45 for total price <= 500
+    shippingCost = 45.0;
+  }
+
+  finalTotal = total - discount + shippingCost;
+
+  return finalTotal;
+} 
+  
+
+ 
 
   int getQty() {
     int total = 0;
@@ -55,7 +75,9 @@ class CartProvider with ChangeNotifier {
   void removeOneItem({required String productId}) {
     _cartItem.remove(productId);
     notifyListeners();
-  }  void updateQuantity({required String productId, required int quantity}) {
+  }
+
+  void updateQuantity({required String productId, required int quantity}) {
     _cartItem.update(
       productId,
       (item) => CartModel(
@@ -66,12 +88,14 @@ class CartProvider with ChangeNotifier {
     );
     notifyListeners();
   }
+
 //local
   void clearLocalCart() {
     _cartItem.clear();
     notifyListeners();
   }
- final auth = FirebaseAuth.instance;
+
+  final auth = FirebaseAuth.instance;
   final usersDB = FirebaseFirestore.instance.collection("users");
   Future<void> addToCartFirebase(
       {required String productId,
@@ -145,7 +169,6 @@ class CartProvider with ChangeNotifier {
     }
     notifyListeners();
   }
-
 
   Future<void> fetchCart() async {
     final User? user = auth.currentUser;

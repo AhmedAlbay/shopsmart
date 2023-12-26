@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopsmart_user/payment/features/checkout/presentation/views/my_cart_view.dart';
 import 'package:shopsmart_user/providers/cart_provider.dart';
 import 'package:shopsmart_user/providers/product_provider.dart';
 import 'package:shopsmart_user/widget/subtitle.dart';
@@ -47,7 +48,10 @@ class CartBottomCheckout extends StatelessWidget {
               const Spacer(),
               ElevatedButton(
                   onPressed: () {
-                    function();
+                     Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return const MyCartView();
+                    }));
                   },
                   child: const Text('Checkout'))
             ],

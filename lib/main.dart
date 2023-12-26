@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shopsmart_user/payment/core/utils/api_key.dart';
 import 'package:shopsmart_user/providers/order_provider.dart';
 import 'package:shopsmart_user/providers/user_provider.dart';
 import 'firebase_options.dart';
@@ -24,10 +26,12 @@ import 'package:shopsmart_user/screens/search_screen.dart';
 import 'consts/theme_data.dart';
 
 Future<void> main() async {
+   Stripe.publishableKey = ApiKey.publishableKey;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(const ShopSmart());
 }
 
